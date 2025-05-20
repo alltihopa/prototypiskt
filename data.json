@@ -1,0 +1,69 @@
+{
+  "meny" : {
+    "a" : [
+      {
+        "sida" : "vallokal",
+        "namn" : "Röstmottagning i vallokal",
+        "undersidor" : [
+          {
+            "sida" : "om_rostmottagningen",
+            "namn" : "Om röstmottagningen"
+          },
+          {
+            "sida" : "ta_emot_rost",
+            "namn" : "Ta emot röst"
+          },
+          {
+            "sida" : "rapportera_resultat",
+            "namn" : "Rapportera preliminärt valresultat"
+          }          
+        ]
+      },
+      {
+        "sida" : "fortidsrostning",
+        "namn" : "Förtidsröstning",
+        "undersidor" : [
+           {
+            "sida" : "om_fortidsrostningen",
+            "namn" : "Om förtidsröstningen"
+          },
+          {
+            "sida" : "ta_emot_fortidsrost",
+            "namn" : "Registrera förtidsröst"
+          },        
+          {
+            "sida" : "efterregistrera",
+            "namn" : "Efterregistrera förtidsröst"
+          }    
+        ]
+      },
+      {
+        "sida" : "incidentrapport",
+        "namn" : "Incidentrapport"
+      }
+    ],
+    "b" : [
+      {
+        "sida" : "ta_emot_fortidsrost",
+        "namn" : "Registrera förtidsröst"
+      }
+    ]
+  },
+  "kopplingskod" : [
+    {
+      "kopplingskod" : "4635858394955",
+      "rostande" : "a"
+    },
+    {
+      "kopplingskod" : "5844738482934", 
+      "rostande" : "b"
+    }
+  ],
+  "parameter" : {
+    "sida" : "start",
+    "inloggad" : "",
+    "meny" : "b",
+    "hitta-alltid" : "ja",
+    "lagg" : "3"
+  }
+}
