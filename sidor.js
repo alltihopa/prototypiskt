@@ -295,7 +295,8 @@ function ta_emot_fortidsrost() {
   var input = länka_in('input', h_div, '', {
       'type' : 'text',
       'id' : 'intygar',
-      'maxlength' : '30'
+      'maxlength' : '30',
+      'required' : 'required'
   });
 
 //
@@ -805,7 +806,7 @@ function mottaget_och_klart(formulär) {
 
   var h2 = länka_in('h2', main, '✅ Rösten är registrerad');
   
-  var p = länka_in('p', main, 'Ange röstlängdsnummer på baksidan:');
+  var p = länka_in('p', main, 'Ange följande röstlängdsnummer på kuvertet:');
 
   var nr = person.röstlängdsnr;
   
