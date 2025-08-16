@@ -22,11 +22,10 @@ body {
         ". . m . ."
         ". f f f .";
     font-family: "Lato", open sans regular, sans-serif;
-    font-size:1.4rem;
-    line-height: 2rem;
+    font-size:1rem;
+    line-height: 1.6rem;
     background-color: aliceblue;
 }
-
 header {
     grid-area: h;
     position: relative;
@@ -46,6 +45,14 @@ footer {
     background-color: skyblue;
     padding: 10px 10px 50px 10px;
 }
+body.valfunk > header,
+body.valfunk > footer {
+    background-color: darkseagreen;
+}
+body.valfunk > main {
+    background-color: floralwhite;
+}
+
 main h1 {
   line-height: 3rem;
   
@@ -62,28 +69,22 @@ header h1 a {
   text-decoration: none;
   
 }
-nav,
-dl {
+nav {
   position: relative;
   border: 3px solid white;
   user-select: none;
   background-color: rgba(255,255,255,0.4);
 }
-dl {
-  float: right;
-  clear: right;
-  padding: 10px;
-}
+
 header label.menyknapp {
   float: right;
   font-size: 3rem;
   right: 10px;
   padding: 20px;
 }
-main label.menyknapp {
+main label {
   padding: 10px;
   display: block;
-  background-color: lightgray;
   margin-bottom: 3px;
 }
 label.menyknapp:hover {
@@ -91,20 +92,26 @@ label.menyknapp:hover {
 }
 input.menyknapp:checked + label {
   background-color: white;
+  padding: 10px;
+  outline: 1px solid #cccccc;
+  border-radius: 5px;
+}
+main input.menyknapp:not(:checked) + label {
+  color: gray;
+  
 }
 main input.menyknapp:not(:checked) + label:before {
   content: '⦾︎ ';
-  color: gray;
+  color: lightgray;
 }
 main input.menyknapp:checked + label:before {
   content: '⦿︎ ';
 }
-input.menyknapp + label + * {
-  //display: none;
-}
+
 input.menyknapp:checked + label + div,
 input.menyknapp:checked + label + nav, 
 input.menyknapp:checked + label + dl {
+  display: block;
   padding: 0;
   height: auto;
   overflow: visible;
@@ -112,7 +119,7 @@ input.menyknapp:checked + label + dl {
 input.menyknapp:not(:checked) + label + div,
 input.menyknapp:not(:checked) + label + nav,
 input.menyknapp:not(:checked) + label + dl {
-
+  
   padding: 0 !important;
   height: 0;
   overflow: hidden;
@@ -134,9 +141,8 @@ input.menyknapp:disabled + label {
   
 }
 
-div > form {
-
-  padding: 60px 20px 100px 20px;
+form {
+  position: relative;
 }
 
 nav li a {
@@ -150,14 +156,47 @@ nav li a:hover {
   background-color: rgba(255,255,255,1);
 }
 
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabs > hr {
+  display: none;
+}
+.tabs > label {
+  
+}
+.tabs > div {
+  background-color: white;
+  padding: 5px 5px 15px 5px;
+  border-radius: 5px;
+}
+#tabs-content-bud,
+#tabs-content-intygande,
+#tabs-content-kand {
+  display: none;
+}
+#bud:checked ~ #tabs-content-bud,
+#intygande:checked ~ #tabs-content-intygande,
+#kand:checked ~ #tabs-content-kand {
+  display: block;
+  width: 100%;
+  flex-basis: 100%;
+  outline: 1px solid #cccccc;
+}
+
 #inloggning {
   position: fixed;
   background-color: gold;
-  height: 100%;
-  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   
 }
-.test {
+#inloggning .test {
+  position: absolute;
+  bottom: 0;
   padding: 5px;
   width: 100%;
   background: repeating-linear-gradient(-45deg, rgba(255, 165, 0, .5) , rgba(255, 165, 0, .5)  20px, rgba(60, 60, 60, .5) 20px, rgba(60, 60, 60, .5) 40px) !important;
@@ -185,11 +224,12 @@ fieldset {
 legend {
   font-size: 1.5rem;
   font-weight: bold;
+  padding: 0 0 10px 0;
 }
 
 
 dl {
-  margin: 0 0 0 10px;
+  position: relative;
 }
 dt label{
   position: absolute;
@@ -197,27 +237,47 @@ dt label{
   padding: 2px 2px 2px 4px;
   line-height: normal;
 }
+dt {
+  font-weight: bold;
+}
 dd {
-  margin: 2px 0 2px 0;
+  margin: 0;
 }
 dd input {
   font-size: large;
   padding: 12px 5px 5px 5px;
   
 }
+ol > li > dl,
+ol > li > div,
+ol > li > form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 0 0;
+}
+main ol > li {
+  background-color: white;
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
 
 input[type=text] {
-  padding: 8px;
+  padding: 15px;
   font-size: medium;
   border-radius: 30px;
   background-color: #eeeeee;
   border: none;
+  width: 100%;
+  margin: 0 10px 0 0;
+  max-width: 400px;
 }
 input[type=button],
 input[type=submit] {
-  padding: 8px;
-  margin: 0 0 0 0;
-  background-color: transparent;
+  padding: 15px 30px 15px 30px;
+  background-color: navy;
+  border-radius: 30px;
+  color: white;
   border: none;
 }
 input[type=button]:hover,
@@ -239,20 +299,105 @@ input[pattern]:valid + input[type=button] {
   //display: block;
   
 }
+.blocklink {
+  position: relative;
+  display: block;
+  border: 1px solid #bbbbbb;
+  border-radius: 10px;
+  background-color: #eeeeee;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+.blocklink:after {
+  content: ' >';
+  position: absolute;
+  bottom: 50%;
+  right: 10px;
+}
+.blocklink > span {
+  display: block;
+  font-weight: bold;
+}
+.blocklink > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: black;
+  padding: 10px 0 0 0;
+  font-size: 1rem;
+  line-height: 1.6rem;
+}
 
+.riksdag {
+  background-color: gold; 
+  border: 1px solid yellow; 
+  padding: 10px;
+  border-radius: 5px;
+}
+.region {
+  background-color: skyblue; 
+  border: 1px solid white; 
+  padding: 10px;
+  border-radius: 5px;
+}
+.kommun {
+  background-color: white; 
+  border: 1px solid #cccccc; 
+  padding: 10px;
+  border-radius: 5px;
+}
+.folkomr {
+  background-color: pink; 
+  border: 1px solid white; 
+  padding: 10px;
+  border-radius: 5px;
+}
+.eu {
+  background-color: navy; 
+  color: gold;
+  border: 1px solid gold; 
+  padding: 10px;
+  border-radius: 5px;
+}
+.sameting {
+  background-color: green; 
+  color: white;
+  border: 1px solid darkgreen; 
+  padding: 10px;
+  border-radius: 5px;
+}
+details {
+  color: #cccccc;
+}
+details[open] {
+  color: black;
+}
+details > div {
+  padding: 10px;
+  border: 1px solid orange;
+  border-radius: 10px;
+  background-color: lightyellow;
+}
+summary:hover {
+  cursor: pointer;
+}
 
 table, th, td {
-  padding: 3px 10px 3px 0;
+  padding: 10px;
   text-align: left;
 }
 .rl_tabell {
-  border: 2px solid black; 
+  border: 3px solid black; 
   border-collapse: collapse;
-  width: 300px;
+  width: auto;
+  margin-bottom: 20px;
+  font-size: 2rem;
 }
 .rl_tabell td {
-  border: 2px solid black; 
+  border: 3px solid black; 
   text-align: center;
+  padding: 10px 30px 10px 30px;
 }
 .rl_tabell td:nth-child(1) {
   width: 20%;
@@ -290,7 +435,6 @@ table, th, td {
 @media (max-width: 820px) {
 
     body{
-        font-size:1.4rem;
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr auto;
         grid-template-areas:

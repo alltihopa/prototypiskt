@@ -133,6 +133,7 @@ function navigationsblock(navigation, aktiv, plats) {
   
 }
 
+
 function skanner(plats) {
   
   var input = plats.previousSibling;
@@ -239,24 +240,23 @@ function sökPersonnummer(plats, id='sok_form', labeltext='', skanner=false) {
     
   });
 
-  var knapp = länka_in('input', plats, '', {
-      'type' : 'button',
-      'value' : '[▦]',
-      'style' : 'margin-left: -65px; font-size: 1.2rem',
-      'onclick' : 'skanner(this)'
-    
-  });
+
   
-  if (!skanner) {
+  if (skanner) {
     
-    knapp.setAttribute('style', 'visibility:hidden;margin-left: -65px; font-size: 1.2rem');
+    var knapp = länka_in('input', plats, '', {
+        'type' : 'button',
+        'value' : '[▦]',
+        'style' : 'margin-left: -65px; font-size: 1.2rem',
+        'onclick' : 'skanner(this)'
+      
+    });
     
   }
   
   var submit_knapp = länka_in('input', plats, '', {
       'type' : 'submit',
-      'value' : '⌕',
-      'style' : 'margin-left: -10px; font-size: 1.8rem'
+      'value' : 'Sök'
     
   });
   

@@ -73,7 +73,7 @@ function ladda_data() {
   
 }
 
-function läs_csv(csv) {
+function läs_csv(csv, id_columns=[]) {
   
   if (!csv) {
     
@@ -83,6 +83,10 @@ function läs_csv(csv) {
   
   const d = ';';
   const n = '\n';
+  const e = '=';
+  const c = ',';
+  
+  var skriv;
   
   var rader = csv.split(n);
   var rubriker = rader.shift().trim().split(d);
@@ -93,22 +97,87 @@ function läs_csv(csv) {
 
   }
 
-  var mål = [];
+  var mål = {};
 
   for (let i = 0; i < rader.length; i++) {
     
     var rad = rader[i].trim().split(d);
     
-    mål[i] = [];
+    var id = i;
+    
+    if (id_columns.length > 0) {
+
+      id = "";
+      
+      for (let x = 0; x < id_columns.length; x++) {
+        
+        id += rad[id_columns[x]];
+        
+      }
+      
+    }
+    
+    if (typeof mål[id] === 'undefined') {
+    
+      mål[id] = [];
+      
+      skriv = mål[id];
+      
+    } else if (typeof mål[id] !== 'object') {
+      
+      var temp = mål[id];
+      
+      mål[id] = [];
+      
+      mål[id][0] = temp;
+      
+      skriv = mål[id][1];
+            
+    } else {
+      
+      var ny = [];
+      
+      mål[id].push(ny);
+
+      skriv = ny;
+      
+    }
     
     for (let j = 0; j < rad.length-1; j++) {
       
-      mål[i][rubriker[j]] = rad[j].trim();
+      skriv[rubriker[j]] = rad[j].trim();
+      
+      if (rad[j].indexOf(e) > -1) {
+        
+        skriv[rubriker[j]] = {};
+        
+        if (rad[j].indexOf(c) > -1) {
+          
+          var namnvärden = rad[j].trim().split(c);
+          
+          for (let u = 0; u < namnvärden.length; u++) {
+            
+            var namnvärde = namnvärden[u].trim().split(e);
+            
+            skriv[rubriker[j]][namnvärde[0]] = namnvärde[1];
+            
+          }
+          
+        } else {
+          
+          var namnvärde = rad[j].trim().split(e);
+          
+          skriv[rubriker[j]][namnvärde[0]] = namnvärde[1];
+          
+        }
+        
+      }
+      
 
     }
     
   }
-  
+  console.log(mål);
   return mål;
   
 }

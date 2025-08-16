@@ -1,12 +1,12 @@
-personnummer;syfte;fnamn;enamn;röstlängdsnr;rd;rf;kf;fo;behörighet
-191212121212;Allt på;Tolvan;Tolvansson;128400121212;Riksdagen, Skåne läns västra valkrets;Regionfullmäktige i Region Skåne, Nordvästkretsen;Kommunfullmäktige i Höganäs;Höganäs;VL=1284, FR=1284
-200101012391;;Ettan;Ettansson;019101011;Riksdagen, Stockholms län;Regionfullmäktige i Region Stockholm, Nordväst;Kommunfullmäktige i Sigtuna;-;VL=01910125
-200202022398;;Tvåan;Tvåansson;2260020222;Riksdagen, Västernorrlands län;Regionfullmäktige i Region Västernorrland;Kommunfullmäktige i Ånge;-;FR=2260
-200303032395;Tysk medborgare;Trean;Treansson;03303363333;-;Regionfullmäktige i Region Uppsala, Uppsala läns mellersta;Kommunfullmäktige i Knivsta;-;VL=03303365, FR=0330
-198404042395;Indisk medborgare;Fyran;Fyransson;04840104444;-;Regionfullmäktige i Region Sörmland;Kommunfullmäktige i Eskilstuna;-;FR=0484
-190505059808;Utlandssvensk;Femman;Femmansson;0580350555;Riksdagen, Östergötlands län;-;-;-;FR=0580
-196606063193;;Sexan;Sexansson;066201066;Riksdagen, Jönköpings län;Regionfullmäktige i Jönköpings län, Tredje valkretsen;Kommunfullmäktige i Gislaved;-;FR=0662
-197707072398;Utlandssvensk;Sjuan;Sjuansson;07670101777;Riksdagen, Kronobergs län;-;-;-;-
-198808082393;Kommunal folkomröstning;Åttan;Åttansson;08850808888;Riksdagen, Kalmar län;Regionfullmäktige i Region Kalmar län, Kalmar 6 Borgholm Mörbylånga;Kommunfullmäktige i Borgholm;Borgholm;-
-199909092398;Gotland;Nian;Niansson;0980010999;Riksdagen, Gotlands län;-;Kommunfullmäktige i Gotland;-;-
-191010109807;Kommunvalkrets;Tian;Tiansson;1080100210;Riksdagen, Blekinge län;Region Blekinge, Karlskronakretsen;Kommunfullmäktige i Karlskrona, Karlskrona Ö;-;-
+personnummer;syfte;fnamn;enamn;röstlängdsnr;rd;rf;kf;fo;eu;st;behörighet;
+191212121212;Allt på;Tolvan;Tolvansson;128400121212;Riksdagen, Skåne läns västra valkrets;Regionfullmäktige i Region Skåne, Nordvästkretsen;Kommunfullmäktige i Höganäs;Höganäs;Europaparlamentet;Sametinget;VL=1284, FR=1284;
+200101012391;;Ettan;Ettansson;019101011;Riksdagen, Stockholms län;Regionfullmäktige i Region Stockholm, Nordväst;Kommunfullmäktige i Sigtuna;-;Europaparlamentet;-;VL=01910125;
+200202022398;;Tvåan;Tvåansson;2260020222;Riksdagen, Västernorrlands län;Regionfullmäktige i Region Västernorrland;Kommunfullmäktige i Ånge;-;Europaparlamentet;-;FR=2260;
+200303032395;Tysk medborgare;Trean;Treansson;03303363333;-;Regionfullmäktige i Region Uppsala, Uppsala läns mellersta;Kommunfullmäktige i Knivsta;-;Europaparlamentet;-;VL=03303365, FR=0330;
+198404042395;Indisk medborgare;Fyran;Fyransson;04840104444;-;Regionfullmäktige i Region Sörmland;Kommunfullmäktige i Eskilstuna;-;-;-;FR=0484;
+190505059808;Utlandssvensk;Femman;Femmansson;0580350555;Riksdagen, Östergötlands län;-;-;-;Europaparlamentet;-;FR=0580;
+196606063193;;Sexan;Sexansson;066201066;Riksdagen, Jönköpings län;Regionfullmäktige i Jönköpings län, Tredje valkretsen;Kommunfullmäktige i Gislaved;-;Europaparlamentet;-;FR=0662;
+197707072398;Utlandssvensk som trillat ur röstlängden;Sjuan;Sjuansson;-;Riksdagen, Kronobergs län;-;-;-;-;-;-;
+198808082393;Kommunal folkomröstning;Åttan;Åttansson;08850808888;Riksdagen, Kalmar län;Regionfullmäktige i Region Kalmar län, Kalmar 6 Borgholm Mörbylånga;Kommunfullmäktige i Borgholm;Borgholm;Europaparlamentet;-;-;
+199909092398;Gotland;Nian;Niansson;0980010999;Riksdagen, Gotlands län;-;Kommunfullmäktige i Gotland;-;Europaparlamentet;-;-;
+191010109807;Kommunvalkrets;Tian;Tiansson;1080100210;Riksdagen, Blekinge län;Region Blekinge, Karlskronakretsen;Kommunfullmäktige i Karlskrona, Karlskrona Ö;-;Europaparlamentet;-;-;

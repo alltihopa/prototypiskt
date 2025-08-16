@@ -2,44 +2,98 @@
   "meny" : {
     "a" : [
       {
-        "sida" : "vallokal",
-        "namn" : "Röstmottagning i vallokal",
+        "sida" : "valjare",
+        "namn" : "Väljare",
         "undersidor" : [
           {
-            "sida" : "om_rostmottagningen",
-            "namn" : "Om röstmottagningen"
+            "sida" : "rostratt",
+            "namn" : "Min rösträtt"
           },
           {
-            "sida" : "ta_emot_rost",
-            "namn" : "Ta emot röst"
+            "sida" : "rostlangd",
+            "namn" : "Min plats i röstlängden"
+          },      
+          {
+            "sida" : "rosta",
+            "namn" : "Jag vill rösta"
+          } ,        
+          {
+            "sida" : "anmal_rostlangd",
+            "namn" : "Anmälan till röstlängd"
+          },      
+          {
+            "sida" : "hur_gick_det",
+            "namn" : "Hur gick det i valet?"
+          }         
+        ]
+      },
+      {
+        "sida" : "parti",
+        "namn" : "Partiföreträdare",
+        "undersidor" : [
+          {
+            "sida" : "kandidat",
+            "namn" : "Kandidat"
           },
           {
-            "sida" : "rapportera_resultat",
-            "namn" : "Rapportera preliminärt valresultat"
+            "sida" : "vald",
+            "namn" : "Vald"
+          },
+          {
+            "sida" : "partiombud",
+            "namn" : "Partiombud"
           }          
         ]
       },
       {
-        "sida" : "fortidsrostning",
-        "namn" : "Förtidsröstning",
+        "sida" : "valfunktionar",
+        "namn" : "Valfunktionär",
         "undersidor" : [
-           {
-            "sida" : "om_fortidsrostningen",
-            "namn" : "Om förtidsröstningen"
+          {
+            "sida" : "vallokal",
+            "namn" : "Röstmottagning i vallokal",
+            "undersidor" : [
+              {
+                "sida" : "om_rostmottagningen",
+                "namn" : "Om röstmottagningen"
+              },
+              {
+                "sida" : "ta_emot_rost",
+                "namn" : "Ta emot röst"
+              },
+              {
+                "sida" : "rapportera_resultat",
+                "namn" : "Rapportera preliminärt valresultat"
+              }          
+            ]
           },
           {
-            "sida" : "ta_emot_fortidsrost",
-            "namn" : "Registrera förtidsröst"
-          },        
+            "sida" : "fortidsrostning",
+            "namn" : "Förtidsröstning",
+            "undersidor" : [
+               {
+                "sida" : "om_fortidsrostningen",
+                "namn" : "Om förtidsröstningen"
+              },
+              {
+                "sida" : "ta_emot_fortidsrost",
+                "namn" : "Registrera förtidsröst"
+              },        
+              {
+                "sida" : "efterregistrera",
+                "namn" : "Efterregistrera förtidsröst"
+              }    
+            ]
+          },
           {
-            "sida" : "efterregistrera",
-            "namn" : "Efterregistrera förtidsröst"
-          }    
+            "sida" : "incidentrapport",
+            "namn" : "Incidentrapport"
+          }
         ]
       },
       {
-        "sida" : "incidentrapport",
-        "namn" : "Incidentrapport"
+        "sida" : "om_mig",
+        "namn" : "Om mig/inställningar"
       }
     ],
     "b" : [
@@ -62,8 +116,12 @@
   "parameter" : {
     "sida" : "start",
     "inloggad" : "",
-    "meny" : "b",
+    "meny" : "a",
     "hitta-alltid" : "ja",
-    "lagg" : "3"
+    "lagg" : "3",
+    "riksdagsval-dagar-kvar" : "160",
+    "europaparlamentsval-dagar-kvar" : "900",
+    "sametingsval-dagar-kvar" : "600",
+    "folkomr-dagar-kvar" : ""
   }
 }
