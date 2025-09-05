@@ -13,14 +13,14 @@ html, body {
 body {
     display: grid;
     min-height: 101%;
-    grid-template-columns: 5vw 5vw 1fr 5vw 5vw;
+    grid-template-columns: 10vw 1fr 10vw;
     grid-template-rows: auto 1fr auto;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     grid-template-areas:
-        ". h h h ."
-        ". . m . ."
-        ". f f f .";
+        "h h h"
+        ". m ."
+        "f f f";
     font-family: "Lato", open sans regular, sans-serif;
     font-size:1rem;
     line-height: 1.6rem;
@@ -45,29 +45,53 @@ footer {
     background-color: skyblue;
     padding: 10px 10px 50px 10px;
 }
-body.valfunk > header,
-body.valfunk > footer {
-    background-color: darkseagreen;
+body.valfunk > header{
+    background-color: #84A9B8;
 }
 body.valfunk > main {
-    background-color: floralwhite;
+    background-color: #F7FAFB;
+}
+body.valfunk > footer {
+    background-color: aliceblue;
 }
 
 main h1 {
   line-height: 3rem;
   
 }
-header h1 {
-  display:inline-block;
-  margin:0;
-  font-size: 2rem;
+
+.centerdiv {
+  display: grid; 
+  place-items: center;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+
 }
-header h1 a {
-  display: block;
-  color: black;
-  padding: 20px 10px 20px 0;
-  text-decoration: none;
-  
+
+header {
+  display: grid;
+  gap: 3px;
+  grid-template-columns: auto auto 60px 0;
+  justify-content: stretch;
+  align-items: center;
+}
+
+header > h1 {
+  grid-row: 1 / 2;
+}
+header > dl {
+  grid-row: 1 / 2;
+}
+header > label {
+  grid-row: 1 / 2;
+  justify-self: end;
+}
+header > nav {
+  grid-row: 2 / 3;
+  grid-column: 1 / 4;
 }
 nav {
   position: relative;
@@ -75,13 +99,56 @@ nav {
   user-select: none;
   background-color: rgba(255,255,255,0.4);
 }
+.inloggad-info {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 0.7rem;
+  line-height: 0.9rem;
+}
+.inloggad-info div {
+  padding: 3px;
+}
+.lokal {
+  float:right;
+}
 
 header label.menyknapp {
+  font-size: 2.5rem;
+  padding: 10px;
+  text-align: center;
+}
+
+header h1 {
+  margin:0;
+  font-size: 2rem;
+}
+header h1 a {
+  color: black;
+  display: block;
+  white-space: nowrap;
+  padding: 25px 10px 20px 0;
+  text-decoration: none;
+  
+}
+.logga-ut {
   float: right;
-  font-size: 3rem;
-  right: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+select {
+  padding: 14px;
+  margin-bottom: 10px;
+}
+input[type=date] {
+  padding: 12px;
+  
+}
+
+#svarsdiv {
   padding: 20px;
 }
+
 main label {
   padding: 10px;
   display: block;
@@ -92,8 +159,10 @@ label.menyknapp:hover {
 }
 input.menyknapp:checked + label {
   background-color: white;
-  padding: 10px;
   outline: 1px solid #cccccc;
+}
+main input.menyknapp:checked + label {
+  padding: 10px;
   border-radius: 5px;
 }
 main input.menyknapp:not(:checked) + label {
@@ -119,7 +188,7 @@ input.menyknapp:checked + label + dl {
 input.menyknapp:not(:checked) + label + div,
 input.menyknapp:not(:checked) + label + nav,
 input.menyknapp:not(:checked) + label + dl {
-  
+  display: none;
   padding: 0 !important;
   height: 0;
   overflow: hidden;
@@ -188,6 +257,8 @@ nav li a:hover {
 #inloggning {
   position: fixed;
   background-color: gold;
+  height: 100%;
+  width: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -199,7 +270,7 @@ nav li a:hover {
   bottom: 0;
   padding: 5px;
   width: 100%;
-  background: repeating-linear-gradient(-45deg, rgba(255, 165, 0, .5) , rgba(255, 165, 0, .5)  20px, rgba(60, 60, 60, .5) 20px, rgba(60, 60, 60, .5) 40px) !important;
+  background: repeating-linear-gradient(-45deg, rgba(255, 165, 0, .2) , rgba(255, 165, 0, .2)  20px, rgba(60, 60, 60, .2) 20px, rgba(60, 60, 60, .2) 40px) !important;
 }
 
 .knapp {
@@ -220,6 +291,7 @@ nav li a:hover {
 fieldset {
   border: none;
   padding: 0;
+  text-align: center;
 }
 legend {
   font-size: 1.5rem;
@@ -250,9 +322,15 @@ dd input {
 }
 ol > li > dl,
 ol > li > div,
-ol > li > form {
+ol > li > form{
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 0 0;
+}
+.textinput-och-knapp {
+  display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
   margin: 10px 0 0 0;
 }
@@ -261,6 +339,17 @@ main ol > li {
   padding: 10px;
   margin: 0 0 10px 0;
 }
+main ol > li > span {
+  font-weight: bold;
+  font-size: large;
+}
+main ol > li > ol {
+  padding: 0 0 0 20px;
+}
+main ol > li > ol > li {
+  padding: 0;
+  margin: 0;
+}
 
 input[type=text] {
   padding: 15px;
@@ -268,8 +357,8 @@ input[type=text] {
   border-radius: 30px;
   background-color: #eeeeee;
   border: none;
-  width: 100%;
-  margin: 0 10px 0 0;
+  width: 80%;
+  margin: 0;
   max-width: 400px;
 }
 input[type=button],
@@ -284,12 +373,17 @@ input[type=button]:hover,
 input[type=submit]:hover  {
   cursor: pointer;
 }
+input[pattern]:focus {
+  background-color: gold;
+  
+}
 
 input[pattern]:invalid {
   
 }
 input[pattern]:valid {
-  outline: 2px solid yellowgreen;
+  outline: 2px solid green;
+  background-color: palegreen;
 }
 input[pattern]:invalid + input[type=button] {
   //display: inherit;
@@ -315,6 +409,10 @@ input[pattern]:valid + input[type=button] {
   bottom: 50%;
   right: 10px;
 }
+.blocklink:hover {
+  background-color: white;
+  outline: 2px solid #eeeeee;
+}
 .blocklink > span {
   display: block;
   font-weight: bold;
@@ -330,22 +428,37 @@ input[pattern]:valid + input[type=button] {
 }
 
 .riksdag {
-  background-color: gold; 
-  border: 1px solid yellow; 
+  background-color: LemonChiffon; 
+  border: 1px solid Khaki; 
   padding: 10px;
   border-radius: 5px;
 }
+.riksdag:before {
+  content: "RD";
+  padding-right: 10px;
+  font-weight: bold;
+}
 .region {
-  background-color: skyblue; 
-  border: 1px solid white; 
+  background-color: LightCyan; 
+  border: 1px solid LightSkyBlue; 
   padding: 10px;
   border-radius: 5px;
+}
+.region:before {
+  content: "RF";
+  padding-right: 10px;
+  font-weight: bold;
 }
 .kommun {
   background-color: white; 
   border: 1px solid #cccccc; 
   padding: 10px;
   border-radius: 5px;
+}
+.kommun:before {
+  content: "KF";
+  padding-right: 10px;
+  font-weight: bold;
 }
 .folkomr {
   background-color: pink; 
@@ -390,14 +503,14 @@ table, th, td {
 .rl_tabell {
   border: 3px solid black; 
   border-collapse: collapse;
-  width: auto;
+  max-width: 90%;
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .rl_tabell td {
   border: 3px solid black; 
   text-align: center;
-  padding: 10px 30px 10px 30px;
+  padding: 10px;
 }
 .rl_tabell td:nth-child(1) {
   width: 20%;
@@ -445,7 +558,6 @@ table, th, td {
     }
     
     table {
-      width: 100%;
       table-layout: fixed;
     }
 

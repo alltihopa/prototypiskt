@@ -30,10 +30,9 @@ function inloggning(här) {
         'name' : 'inloggad',
         'type' : 'radio',
         'value' : p,
-        'title' : person.syfte,
         'oninput' : 'uppdatera("inloggad", "' + p + '")'
     });
-    var label = länka_in('label', test, person.fnamn + ' ' + person.enamn, {
+    var label = länka_in('label', test, person.fnamn + ' ' + person.enamn + ' (' + JSON.stringify(person.behörighet) + ')', {
         'for' : id,
         'style' : 'font-size:x-small'
     });
@@ -55,18 +54,10 @@ function navigering(här) {
   
 }
 
-function sätt_upp_navigation(header) {
+function sätt_upp_navigation(header, skriv_rubrik=true) {
   
-  console.log('sätt_upp_navigation');
   var navigation = bestäm(model['meny'], model['parameter']['meny']); 
-  
-  var h1 = länka_in('h1', header);
-  var a = länka_in('a', h1, '🔵 Välkommen', {
-      'href' : '?sida=start',
-      'style' : 'font-family: Arial'
-        
-  });
-  
+    
   if (!navigation) {
     
     return false;
@@ -87,12 +78,19 @@ function sätt_upp_navigation(header) {
   });
   
   var nav = länka_in('nav', header);
-    
-  navigationsblock(navigation, model['parameter']['sida'], nav);
+  
+  var logga_ut = länka_in('button', nav, '⇥	Logga ut', {
+      'onclick' : 'window.location = window.location.pathname',
+      'value' : 'Logga ut',
+      'class' : 'logga-ut'
+      
+  });
+  
+  navigationsblock(navigation, model['parameter']['sida'], nav, skriv_rubrik);
   
 }
 
-function navigationsblock(navigation, aktiv, plats) {
+function navigationsblock(navigation, aktiv, plats, skriv_rubrik=true) {
   
   var ol = länka_in('ol', plats);
   
@@ -115,9 +113,13 @@ function navigationsblock(navigation, aktiv, plats) {
       
       a.setAttribute('class', 'aktiv');
       document.title = navigation[n].namn;
-      var main = document.getElementsByTagName('main')[0];
-      länka_in('h1', main, navigation[n].namn);
-     // aktiv_sida = navigation[n];
+      
+      if (skriv_rubrik) {
+      
+        var main = document.getElementsByTagName('main')[0];
+        länka_in('h1', main, navigation[n].namn);
+     
+      }
       
     }
     
@@ -125,7 +127,7 @@ function navigationsblock(navigation, aktiv, plats) {
     
     if (undersidor) {
       
-      navigationsblock(undersidor, aktiv, li);
+      navigationsblock(undersidor, aktiv, li, skriv_rubrik);
       
     }
     
@@ -133,6 +135,29 @@ function navigationsblock(navigation, aktiv, plats) {
   
 }
 
+function kollaLokal() {
+  
+  if (!model['parameter']['lokalnamn']) {
+    
+    console.log('ingen lokal!');
+    
+    window.location.replace(uppdatera_url("?sida=valj_lokal"))
+    
+  }
+  
+}
+
+function kollaLokalStatus() {
+  console.log('lskdfjslkdfjsldkfjsdflkj', model['parameter']);
+  if (model['parameter']['lokalstatus'] != 'ok') {
+    
+    console.log('lokalen stängd!');
+    
+    window.location.replace(uppdatera_url("?sida=oppna_stang_fortidsrostning"))
+    
+  }
+  
+}
 
 function skanner(plats) {
   
@@ -183,20 +208,46 @@ function loader(plats) {
   var random = Math.floor(Math.random() * laddningstider.length);
 
   var s = laddningstider[random];
+  
+  window.scrollTo(0, 0);
 
   var container = länka_in('div', plats, null, {
-      'style' : 'position:absolute; z-index: 100;width: 100%; background-color: white; height: 100%;animation: loader_container ' + s + 's linear forwards;'
+      'style' : 'position:fixed; z-index: 100;width: 100%; background-color: white; height: 100%;top: 0;left:0; bottom:0;right:0;animation: loader_container ' + s + 's linear forwards;'
   });
   
   
   var spinner = länka_in('div', container, null, {
-      'style' : 'position: fixed;width: 200px;height: 200px;margin-left:20%;border: 20px solid;border-color: lightblue transparent;border-radius: 50%;display: inline-block;box-sizing: border-box;outline: 4000px solid white; animation: loader 2s linear infinite;'
+      'style' : 'position: fixed;width: 200px;height: 200px;left:30vw;top:10vw;border: 20px solid;border-color: lightblue transparent;border-radius: 50%;display: inline-block;box-sizing: border-box;outline: 4000px solid white; animation: loader 2s linear infinite;'
   });
   
-  window.scrollTo(0, 0);
 
   return spinner;
 
+}
+
+function kuvertIdTillNr(kuvertID, vallokaler) {
+  //skapa nr i röstlängd utifrån ett kuvertID
+  
+  const multi = 10; //antal i samma valdistrikt
+  const max_vd = 2139; //max antal i ett valdistrikt
+  const nåt_halvstort_tal = 9876; //så att inte två idn efter varandra pekar på två nr efter varandra
+  
+  var id = Number(kuvertID) || 0;
+  var antal = vallokaler.length;
+  
+  var antal_multi = antal * multi;
+  
+  //var index = id % antal;
+  var index = Math.floor((id % antal_multi) / multi);
+  var lan = vallokaler[index]['LÄNSKOD'];
+  var kom = vallokaler[index]['KOMMUNKOD'];
+  var vd = vallokaler[index]['VALDISTRIKTKOD'];
+  
+  var nr = id % max_vd;
+  nr = (nåt_halvstort_tal * nr) % max_vd + 1;
+  
+  return lan + kom + vd + nr;
+  
 }
 
 
@@ -220,15 +271,21 @@ function dropdown(kopplingar) {
   
 }
 
-function sökPersonnummer(plats, id='sok_form', labeltext='', skanner=false) {
+function sökPersonnummer(plats, id='sok_form', labeltext=false, skanner=false) {
   
-  var label = länka_in('label', plats, labeltext, {
-      'for' : id + '_input',
-      'style' : 'font-size: 0.7rem;display:block;line-height: 1rem;'
-    
+  if (labeltext) {
+  
+    var label = länka_in('label', plats, labeltext, {
+        'for' : id + '_input',
+        'style' : 'font-size: 0.7rem;display:block;line-height: 1rem;'
+      
+    });
+  
+  }
+  var div = länka_in('div', plats, '', {
+      'class' : 'textinput-och-knapp'
   });
-  
-  var input = länka_in('input', plats, '', {
+  var input = länka_in('input', div, '', {
       'type' : 'text',
       'id' : id + '_input',
       'name' : id,
@@ -244,7 +301,7 @@ function sökPersonnummer(plats, id='sok_form', labeltext='', skanner=false) {
   
   if (skanner) {
     
-    var knapp = länka_in('input', plats, '', {
+    var knapp = länka_in('input', div, '', {
         'type' : 'button',
         'value' : '[▦]',
         'style' : 'margin-left: -65px; font-size: 1.2rem',
@@ -254,7 +311,7 @@ function sökPersonnummer(plats, id='sok_form', labeltext='', skanner=false) {
     
   }
   
-  var submit_knapp = länka_in('input', plats, '', {
+  var submit_knapp = länka_in('input', div, '', {
       'type' : 'submit',
       'value' : 'Sök'
     
@@ -271,17 +328,25 @@ function sok_person(sokform, svarssida='') {
   var sok_pnr = sokform.querySelector('input').value;
   
   pnr = sok_pnr.replace('-', '');
+ 
+  var index = sok_pnr[sok_pnr.length - 1];
   
+  person = model['person'][index];      
+  
+  /*
   var valjare_pnr = länka_in('input', document.getElementsByTagName('body')[0], '', {
       'type' : 'hidden',
       'value' : pnr,
       'id' : 'valjare_pnr'
   });
+  */
+  
   
   sätt_upp_sida(svarssida);
   
 
 }
+
 
 function dump(plats) {
   
@@ -306,8 +371,10 @@ function dump(plats) {
 
 function dumpblock(plats, data) {
   
-  var dl = länka_in('dl', plats, '' , {'class' : 'test'});
+ 
   
+  var dl = länka_in('dl', plats, '' , {'class' : 'test'});
+   var p = länka_in('p', dl, '{testparametrar}');
   for (var d in data) {
     
     if (typeof data[d] == 'object') {
@@ -339,7 +406,6 @@ function dumpblock(plats, data) {
   
   for (var p in model['person']) {
     
-    console.log( model['person'][p]);
     var dt = länka_in('dt', dl, p);
     for (var q in model['person'][p]) {
       

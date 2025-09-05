@@ -1,4 +1,4 @@
-var get_parametrar = {};
+//var get_parametrar = {};
 var model = {};
 
 var person = null;
@@ -35,13 +35,13 @@ function ladda_get_parametrar() {
       
       model['parameter'][parameter[0]] = parameter[1] || '';
       
-      get_parametrar[parameter[0]] = parameter[1] || '';
+//      get_parametrar[parameter[0]] = parameter[1] || '';
         
     }
     
   }
   
-  console.log(model['parameter']);
+//  console.log(model['parameter']);
   
 }
 
@@ -57,11 +57,11 @@ function ladda_data() {
       
       ladda_get_parametrar();
       
-      sätt_upp_sida();
+      sätt_upp_sida(bestäm(model['parameter'], 'sida'));
       
       uppdatera();
       
-      console.log(model);
+//      console.log(model);
 
       return false;
     
@@ -97,7 +97,7 @@ function läs_csv(csv, id_columns=[]) {
 
   }
 
-  var mål = {};
+  var mål = [];
 
   for (let i = 0; i < rader.length; i++) {
     
@@ -177,7 +177,7 @@ function läs_csv(csv, id_columns=[]) {
     }
     
   }
-  console.log(mål);
+  
   return mål;
   
 }
@@ -203,12 +203,16 @@ function sätt_upp_sida(sida=false) {
     efterfrågad_sida = sida;
     
   } else {
-  
-    efterfrågad_sida = bestäm(model['parameter'], 'sida');
+    
+    efterfrågad_sida = model['meny'][model['parameter']['meny']][0]['sida'];
+
+    //efterfrågad_sida = bestäm(model['parameter'], 'sida');
   
   }
   
   console.log('sätter upp sidan ' + efterfrågad_sida);
+  
+  console.log('model', model);
   
   if (!kolla_sida(efterfrågad_sida)) {
     
@@ -239,34 +243,32 @@ function kolla_sida(sida) {
 
 function uppdatera(namn=false, värde=false, lokal=false) {
   
-  console.log('uppdatera: ' + namn + '=' + värde, 'lokal=' + lokal);
+  
   model[namn] = värde;
-  console.log(model);
+  //console.log(model);
   if (lokal) {
-    
-    return;
+    //console.log('uppdatera: ' + namn + '=' + värde, 'lokal=' + lokal);
+    return false;
     
   }
-
-
-  var nytt = {};
   
   if (värde) {
-  
-    get_parametrar[namn] = värde;
-    
-    nytt[namn] = värde;
+    console.log('uppdatera: ' + namn + '=' + värde, 'lokal=' + lokal);
+//    get_parametrar[namn] = värde;
+    model['parameter'][namn] = värde;
   
   }
   
   //byt ut alla a så att parametrar finns med i url
-  console.log('uppdatera länkar: ' + namn + '=' + värde);
+ // console.log('uppdatera länkar: ' + namn + '=' + värde);
   
   var länkar = document.getElementsByTagName('a');
   
   for (var l of länkar) {
     
-    var grund = l.href;
+    l.href = uppdatera_url(l.href, namn, värde);
+    
+/*     var grund = l.href;
     var delar = [];
     var länk_param = [];
     var parameter_url = '?';
@@ -288,12 +290,12 @@ function uppdatera(namn=false, värde=false, lokal=false) {
       
     }
 
-    var allt = Object.assign({}, get_parametrar, länk_param, nytt);
+    var allt = Object.assign({}, model['parameter'], länk_param, nytt);
     
     for (var a in allt) {
       if (a == namn && värde == '') {
         
-        console.log(a + '=' + värde);
+       // console.log(a + '=' + värde);
 
         continue;
         
@@ -304,10 +306,65 @@ function uppdatera(namn=false, värde=false, lokal=false) {
     }
     parameter_url = parameter_url.substring(0, parameter_url.length - 1);
     
-    l.href = grund + parameter_url;
+    l.href = grund + parameter_url; */
     
   }
     
+}
+
+function uppdatera_url(länk, nytt_namn=false, nytt_värde=false) {
+  //läs
+  var grund = länk;
+  var delar = [];
+  var länk_param = [];
+  
+  var parameter_url = '?';
+  
+  if (länk.indexOf('?') > -1) {
+  
+    grund = länk.split('?')[0];
+    
+    delar = länk.split('?')[1].split('&');
+        
+  }
+  
+  for (var d in delar) {
+    
+    var del_namn = delar[d].split('=')[0];
+    var del_värde = delar[d].split('=')[1];
+    
+    länk_param[del_namn] = del_värde;
+    
+  }
+
+  var nytt = {};
+
+  if (nytt_namn != false) {
+    
+    nytt[nytt_namn] = nytt_värde;
+    
+  }
+  
+  var allt = Object.assign({}, model['parameter'], länk_param, nytt);
+  
+  for (var a in allt) {
+    if ((a == nytt_namn && nytt_värde == '')) {
+      
+     // console.log(a + '=' + värde);
+
+      continue;
+      
+    }
+    
+    if (nytt_namn == 'false') { continue; }
+    
+    parameter_url += a + '=' + allt[a] + '&';
+    
+  }
+  parameter_url = parameter_url.substring(0, parameter_url.length - 1);
+  console.log(parameter_url);
+  return grund + parameter_url;
+
 }
 
 function hitta_i_datat(start=model, namn, värde, skoja_till_det=false) {
@@ -332,13 +389,14 @@ function hitta_i_datat(start=model, namn, värde, skoja_till_det=false) {
   
 }
 
+
 function ladda_jox(method, url, data, callback) {
     
   var xhttp = new XMLHttpRequest();
   
   data = data || false;
   
-  console.log(method, url, data);
+ // console.log(method, url, data);
   
   xhttp.onreadystatechange = function() {
       

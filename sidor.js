@@ -1,18 +1,23 @@
-function sätt_upp_basic_sida(kräv_inloggad=true) {
-  
-  console.log('sätt_upp_basic_sida');
-    
+function sätt_upp_basic_sida(kräv_inloggad=true, skriv_rubrik=true) {
+      
   var head = document.getElementsByTagName('head')[0];
   
   var body = document.getElementsByTagName('body')[0];
   
   var header = länka_in('header', body);
+  
+  var h1 = länka_in('h1', header);
+  var a = länka_in('a', h1, '◯ Välkommen', {
+      'href' : '?sida=' + model['meny'][model['parameter']['meny']][0]['sida'],
+      'style' : 'font-family: Arial'
+        
+  });
+
   var main = länka_in('main', body, '', {
       'id' : 'main'
   });
   var footer = länka_in('footer', body);
   
-  sätt_upp_navigation(header);
   
   dump(footer);
   
@@ -25,11 +30,34 @@ function sätt_upp_basic_sida(kräv_inloggad=true) {
       console.log('Ingen är inloggad');
       
       inloggning(main);
+            
+    } else {
       
-    }
+      var dl = länka_in('dl', header, '', {
+          'class' : 'inloggad-info'
+      }); 
+      
+      var div = länka_in('div', dl);
+      var dt = länka_in('dt', div, 'Inloggad som');
+      var dd = länka_in('dd', div, model['inloggad'].fnamn + ' ' + model['inloggad'].enamn);
 
-  }
+      if (model['parameter']['lokalnamn']) {
+      
+        var div = länka_in('div', dl);  
+        var dt = länka_in('dt', div, 'Lokal');
+        var dd = länka_in('dd', div, model['parameter']['lokalnamn']);
+/*         var a = länka_in('a', dd, model['parameter']['lokalnamn'], {
+            'href' : '?sida=valj_lokal'
+        }); */
+        
+      }
+     
+    }
     
+  }
+  
+  sätt_upp_navigation(header, skriv_rubrik);
+  
   return main;
   
 }
@@ -37,9 +65,7 @@ function sätt_upp_basic_sida(kräv_inloggad=true) {
 
 
 function start() {
-  console.log('start');
-  var main = sätt_upp_basic_sida();
-  console.log(model['inloggad']);
+  var main = sätt_upp_basic_sida(true, false);
   var hej = länka_in('h1', main, 'Hej ' + model['inloggad'].fnamn + '!');
   länka_in('p', main, 'Välkommen till mina sidor!');
   var a = länka_in('a', main, '', {
@@ -72,7 +98,6 @@ function start() {
 }
 
 function valjare() {
-  console.log('valjare');
   var main = sätt_upp_basic_sida();
   
  // länka_in('p', main, 'Jag som väljare');
@@ -133,7 +158,6 @@ function valjare() {
 }
 
 function rostratt() {
-  console.log('rostratt');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Baserat på de uppgifter som Valmyndigheten har om dig, skulle du få följande rösträtt om det vore val idag:');
@@ -202,7 +226,6 @@ function rostratt() {
 }
 
 function rosta() {
-  console.log('rosta');
   var main = sätt_upp_basic_sida();
 
   länka_in('p', main, 'Den X september är det val. Då kan du rösta i din vallokal:');
@@ -223,7 +246,6 @@ function rosta() {
   
 }
 function rostlangd() {
-  console.log('rostlangd');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Det räcker inte med att ha rösträtt - du måste finnas skriven i en röstlängd för att få rösta.');
@@ -266,7 +288,6 @@ function rostlangd() {
 }
 
 function anmal_rostlangd() {
-  console.log('anmal_rostlangd');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Jag vill anmäla mig till röstlängden');
@@ -278,7 +299,6 @@ function anmal_rostlangd() {
   
 }
 function hur_gick_det() {
-  console.log('hur_gick_det');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Hur gick det i valet?');
@@ -291,7 +311,6 @@ function hur_gick_det() {
 }
 
 function parti() {
-  console.log('parti');
   var main = sätt_upp_basic_sida();
   
   var details = länka_in('details', main);
@@ -319,7 +338,6 @@ function parti() {
   
 }
 function kandidat() {
-  console.log('kandidat');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Jag är kandidat, eller vill bli kandidat.');
@@ -332,7 +350,6 @@ function kandidat() {
   
 }
 function vald() {
-  console.log('vald');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Jag är vald, eller ersättare. Eller jag har varit?');
@@ -344,7 +361,6 @@ function vald() {
   
 }
 function partiombud() {
-  console.log('partiombud');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Jag är partiombud');
@@ -360,7 +376,6 @@ function partiombud() {
 }
 
 function valfunktionar() {
-  console.log('valfunktionar');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -395,11 +410,11 @@ function valfunktionar() {
       if (i.indexOf('FR') > -1) {
         
           var a = länka_in('a', details_är, '', {
-            'href' : '?sida=ta_emot_fortidsrost',
+            'href' : '?sida=fortidsrostning',
             'class' : 'blocklink'
           });
           
-          länka_in('span', a, 'Registrera förtidsröst');
+          länka_in('span', a, 'Förtidsröstning');
           länka_in('div', a, model['inloggad']['behörighet'][i]);
 
         
@@ -432,7 +447,6 @@ function valfunktionar() {
 }
 
 function vallokal() {
-  console.log('vallokal');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -464,7 +478,6 @@ function vallokal() {
 }
 
 function om_rostmottagningen() {
-  console.log('om_rostmottagningen');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -483,7 +496,6 @@ function om_rostmottagningen() {
 }
 
 function rapportera_resultat() {
-  console.log('rapportera_resultat');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -496,7 +508,6 @@ function rapportera_resultat() {
 
 
 function incidentrapport() {
-  console.log('incidentrapport');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -514,7 +525,6 @@ function incidentrapport() {
 }
 
 function om_mig() {
-  console.log('om_mig');
   var main = sätt_upp_basic_sida();
   
   länka_in('p', main, 'Det här är de uppgifter Valmyndigheten har om dig:');
@@ -542,7 +552,6 @@ function om_mig() {
 
 
 function sidan_finns_inte() {
-  console.log('sidan_finns_inte');
   var main = sätt_upp_basic_sida();
   
   var hej = länka_in('p', main, 'Sidan "' + model['parameter']['sida'] + '" finns inte.');
@@ -552,7 +561,6 @@ function sidan_finns_inte() {
 }
 
 function ta_emot_rost() {
-  console.log('ta_emot_rost');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -640,63 +648,38 @@ function ta_emot_rost() {
 }
 
 function fortidsrostning() {
-  console.log('fortidsrostning');
-  var main = sätt_upp_basic_sida();
+  kollaLokal();
+  
+
+  var main = sätt_upp_basic_sida(true, false);
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
 
-  var är_funktionär = typeof model['inloggad']['behörighet'] === 'object';
-
+  var hej = länka_in('h1', main, 'Hej ' + model['inloggad'].fnamn + '!');
+  var p = länka_in('p', main);
+  var span = länka_in('span', p, 'Du är inloggad i röstningslokalen ');
+  var span = länka_in('span', p, model['parameter']['lokalnamn'], {
+      'style' : 'font-weight: bold'
+      
+  });
+  var span = länka_in('span', p, ' - vad vill du göra?');
   
-  länka_in('p', main, 'Här kan man hantera förtidsröstning!');
-  var lista = länka_in('ul', main);
-  var li = länka_in('li', lista, 'Välj plats? se alla platser, med statistik? "min" är highlightad?');
-  var li = länka_in('li', lista, 'Nyheter?');
-
-  if (är_funktionär) {
-    
-    if (model['inloggad']['behörighet']['FR']) {
-    
-      ladda_jox('GET', 'rostningslokaler.csv', false, function (response) {
-        
-        var lokaler = läs_csv(response, [0, 2], 7);
-        
-        var min_kommun = model['inloggad']['behörighet']['FR'];
-        
-        //länka_in('p', main, lokaler[model['inloggad']['behörighet']['FR']]['LOKAL']);
-        
-        if (typeof lokaler[min_kommun] !== 'undefined') {
-          
-          var mina_lokaler = lokaler[min_kommun];
-          
-          mina_lokaler.sort(sorteraNamn);
-
-          function sorteraNamn(a, b) {
-                  
-                  return a['LOKAL'].localeCompare(b['LOKAL']);
-          }
-          
-          for (var i = 0; i < mina_lokaler.length; i++) {
-            
-            var p = länka_in('p', main, mina_lokaler[i]['LOKAL']);
-            
-          }
-          
-        }
-        
-        return false;
-      
-      });
-      
-    }
-    
-  }
-
-
+  var a = länka_in('a', main, '', {
+    'href' : '?sida=ta_emot_fortidsrost',
+    'class' : 'blocklink'
+  });
+  länka_in('span', a, 'Ta emot förtidsröst');
+  länka_in('div', a, 'Klicka här om du vill ta emot förtidsröster');
+  
+  var a = länka_in('a', main, '', {
+    'href' : '?sida=ikappregistrera',
+    'class' : 'blocklink'
+  });
+  länka_in('span', a, 'Registrera nedkopplad förtidsröst');
+  länka_in('div', a, 'Registrera förtidsröster som tagits emot i nedkopplat läge');
 }
 
 function om_fortidsrostningen() {
-  console.log('om_fortidsrostningen');
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
@@ -714,15 +697,28 @@ function om_fortidsrostningen() {
 }
 
 function ta_emot_fortidsrost() {
-  console.log('ta_emot_fortidsrost');
-  var main = sätt_upp_basic_sida();
+  kollaLokal();
+  kollaLokalStatus();
+  var main = sätt_upp_basic_sida(true, false);
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
   
-  var fieldset = länka_in('fieldset', main);
-  var legend = länka_in('legend', fieldset, 'Väljarens personnummer:');
+/*   if (model['parameter']['lokalnamn']) {
   
-
+    var div = länka_in('div', main, model['parameter']['lokalnamn'], {'class' : 'lokal'});  
+    
+  }
+ */  
+  var div = länka_in('div', main, '', {
+      'class' : 'centerdiv'
+    
+  });
+  
+  var fieldset = länka_in('fieldset', div);
+//  var legend = länka_in('legend', fieldset, 'Väljarens personnummer:');
+  var legend = länka_in('legend', fieldset, 'Sök fram väljare');
+  
+  var p = länka_in('p', fieldset, 'Skanna ID-handling eller skriv in väljarens personnummer');
   
   var id_form = länka_in('form', fieldset, '', {
       'action' : '',
@@ -733,6 +729,9 @@ function ta_emot_fortidsrost() {
   });
   
   var sökruta = sökPersonnummer(id_form, 'pnr_id-handling', '', false);
+  
+  sökruta.setAttribute('placeholder', '10 eller 12 siffror');
+  
   sökruta.focus();
  
 /*  
@@ -948,13 +947,7 @@ function ta_emot_fortidsrost() {
 function ta_emot_fortidsrost2() {
 
   var main = document.getElementsByTagName('main')[0];
-  
-  var sok_pnr = document.getElementById('valjare_pnr').value;
-
-  console.log('ta_emot_fortidsrost2 med pnr:' + sok_pnr);
-  
-  person = hitta_i_datat(model['person'], 'personnummer', sok_pnr);
-
+    
   main.innerHTML = '';
 
   var spinner = loader(main);
@@ -964,36 +957,22 @@ function ta_emot_fortidsrost2() {
       'href' : '#',
       'style' : 'padding-bottom: 10px'
   });
+/*   if (model['parameter']['lokalnamn']) {
   
-   if (!person) {
+    var div = länka_in('div', main, model['parameter']['lokalnamn'], {'class' : 'lokal'});  
     
-    if (model['parameter']['hitta-alltid'] == 'ja') {
-      
-      var index = sok_pnr[sok_pnr.length - 1];
-      
-      person = model['person'][index];
-      //person.personnummer = sok_pnr;
-      
-    } else {
-
-      var ohittad = länka_in('p', main, 'Personnummer ' + sok_pnr + ' hittades inte.')
-      
-      return false;
-
-    }
-   
-  } 
-  
+  }
+ */    
   if (person['personnummer'] == model['inloggad']['personnummer']) {
     
-    var p = länka_in('p', main, '(Du kan inte ta emot din egen röst, inloggad = väljare)');
+    console.log('(Du kan inte ta emot din egen röst, inloggad = väljare)');
     
   }
 
   var ol = länka_in('ol', main);
-  var li = länka_in('li', ol, 'Säkerställ väljarens identitet:');
-  
-
+  var li = länka_in('li', ol);
+  //var textblock = länka_in('span', li, 'Säkerställ väljarens identitet:');
+  var textblock = länka_in('span', li, 'Kontrollera väljarens identitet');
 
   var personnummer_text = person.personnummer.substr(0, 4) + ' ';
   personnummer_text += person.personnummer.substr(4, 2) + ' ';
@@ -1001,11 +980,10 @@ function ta_emot_fortidsrost2() {
   personnummer_text += ' - ';
   personnummer_text += person.personnummer.substr(8, 4);
   
-  var dl = länka_in('dl', li); 
+  var dl = länka_in('dl', li, '', {
+      'style' : 'gap: 30px'
+  }); 
   
-  var div = länka_in('div', dl);  
-  var dt = länka_in('dt', div, 'Personnummer');
-  var dd = länka_in('dd', div, personnummer_text);
 
   var div = länka_in('div', dl);
   var dt = länka_in('dt', div, 'Förnamn');
@@ -1015,6 +993,9 @@ function ta_emot_fortidsrost2() {
   var dt = länka_in('dt', div, 'Efternamn');
   var dd = länka_in('dd', div, person.enamn);
 
+  var div = länka_in('div', dl);  
+  var dt = länka_in('dt', div, 'Personnummer');
+  var dd = länka_in('dd', div, personnummer_text);
   
 /*  var nr = person.röstlängdsnr;
   
@@ -1031,7 +1012,11 @@ function ta_emot_fortidsrost2() {
   if (person.röstlängdsnr.length > 2) {
 
 
-    var li = länka_in('li', ol, 'Ovanstående uppgifter har hämtats från:');
+    var li = länka_in('li', ol);
+
+    //var textblock = länka_in('span', li, 'Ovanstående uppgifter har hämtats från:');
+    var textblock = länka_in('span', li, 'Markera hur väljaren har identifierat sig');
+
     
     var tabs = länka_in('div', li, '', {
         'class' : 'tabs'
@@ -1049,17 +1034,7 @@ function ta_emot_fortidsrost2() {
         'for' : 'id-handling'
     });
     
-    var input = länka_in('input', tabs, null, {
-        'type' : 'radio',
-        'class' : 'menyknapp',
-        'name' : 'id',
-        'value' : 'bud',
-        'id' : 'bud',
-        'oninput' : 'document.getElementById("id-bud").focus()'
-    }); 
-    var label = länka_in('label', tabs, 'Budröst ▼', {
-        'for' : 'bud'
-    });
+
     
     var input = länka_in('input', tabs, null, {
         'type' : 'radio',
@@ -1084,6 +1059,18 @@ function ta_emot_fortidsrost2() {
     }); 
     var label = länka_in('label', tabs, 'Känd av röstmottagare ▼', {
         'for' : 'kand'
+    });
+
+    var input = länka_in('input', tabs, null, {
+        'type' : 'radio',
+        'class' : 'menyknapp',
+        'name' : 'id',
+        'value' : 'bud',
+        'id' : 'budr',
+        'oninput' : 'document.getElementById("id-bud").focus()'
+    }); 
+    var label = länka_in('label', tabs, 'Budröst', {
+        'for' : 'budr'
     });
     
     var hr = länka_in('hr', tabs);
@@ -1138,7 +1125,8 @@ function ta_emot_fortidsrost2() {
         'required' : 'required',
         'maxlength' : '4',
         'form' : 'koppla_form',
-        'style' : 'width: 100px; margin-left: 10px;'
+        'style' : 'width: 100px; margin-left: 10px;',
+        'pattern' : '.{2}'
       
     });
     
@@ -1146,7 +1134,10 @@ function ta_emot_fortidsrost2() {
   
   if (person.röstlängdsnr.length > 2) {
 
-    var li = länka_in('li', ol, person.fnamn + ' ' + person.enamn + ' får lämna röst i följande val:');
+    var li = länka_in('li', ol);
+
+    //var textblock = länka_in('span', li, 'person.fnamn + ' ' + person.enamn + ' får lämna röst i följande val:');
+    var textblock = länka_in('span', li, 'Kontrollera väljarens rösträtt nedan med mottagna valkuvert');
     
     var rösträtter = länka_in('div', li);
     
@@ -1183,16 +1174,23 @@ function ta_emot_fortidsrost2() {
     
     var p = länka_in('p', li, person.fnamn + ' ' + person.enamn + ' har rösträtt, men är inte inskriven i en röstlängd.');
     
-    var p = länka_in('p', li, 'Ta emot rösten i nedkopplat läge och lägg därefter rösten i särskilt omslag.');    
+    var p = länka_in('p', li, 'Systemet kan inte användas i detta fall. Ta emot rösten i nedkopplat läge och lägg därefter rösten i särskilt omslag.');    
 
   }
   
   if (person.röstlängdsnr.length > 2) {
 
-    var li = länka_in('li', ol, 'Koppla rösten genom att ange kopplingskod på kuvertet:');
+    var li = länka_in('li', ol);
 
+    //var textblock = länka_in('span', li, 'Skanna kuvert-ID på kuvertet, eller ange manuellt:');
+    var textblock = länka_in('span', li, 'Lägg ner valkuvert och adress- eller röstkort i fönsterkuvertet');
+
+    var inre_ol = länka_in('ol', li);
+    var inre_li = länka_in('li', inre_ol, 'Lägg ner korrekt iordninggjorda valkuvert i fönsterkuvertet tillsammans med röskortet eller adresskortet.');
+    var inre_li = länka_in('li', inre_ol, 'Förslut fönsterkuvertet.');
+    var inre_li = länka_in('li', inre_ol, 'Skanna eller mata in kopplingskoden nedan.');
     
-    var formulär = länka_in('form', li, '', {
+    var formulär = länka_in('form', inre_li, '', {
         'action' : '',
         'name' : 'koppla_form',
         'onsubmit' : 'event.preventDefault();koppling_gjord(this);return false;',
@@ -1224,12 +1222,11 @@ function ta_emot_fortidsrost2() {
 }
 
 function efterregistrering() {
-  
+  /*
   var main = document.getElementsByTagName('main')[0];
   
   var sok_pnr = document.getElementById('valjare_pnr').value;
 
-  console.log('efterregistrering med pnr:' + sok_pnr);
 
   person = hitta_i_datat(model['person'], 'personnummer', sok_pnr);
   
@@ -1300,8 +1297,6 @@ function efterregistrering() {
   
 
 
-/**/
-/*
   var rubrik = länka_in('h3', main, 'Rösträtt');
 
   var input = länka_in('input', main, null, {
@@ -1351,7 +1346,7 @@ function efterregistrering() {
     input.setAttribute('checked', 'checked');
   }
 
-*/
+
   var fieldset = länka_in('fieldset', main, '', {
       'style' : 'margin-top: 50px'
   });
@@ -1447,45 +1442,76 @@ function efterregistrering() {
   });
   
   window.scrollTo(0, 100);
+  
+  */
 }
 
 function koppling_gjord(formulär) {
   
   var main = document.getElementsByTagName('main')[0];
-
+  
+  var kuvertid = document.getElementById('koppla').value;
+  
   console.log('koppling_gjord');
 
   main.innerHTML = '';
 
   var spinner = loader(main);
-
-  var h2 = länka_in('h2', main, 'Nästan klart!');
+/*   if (model['parameter']['lokalnamn']) {
   
-  var p = länka_in('p', main, 'Fliken på kuvertet ska vara igenklistrad!');
-  var p = länka_in('p', main, 'Ange följande röstlängdsnummer på kuvertet:');
-  var nr = person.röstlängdsnr;
-  
-  var table = länka_in('table', main, '', {
-    'class' : 'rl_tabell'    
-  });
-  var tr = länka_in('tr', table);
-  var td = länka_in('td', tr, nr.substr(0, 2));
-  var td = länka_in('td', tr, nr.substr(2, 2));
-  var td = länka_in('td', tr, nr.substr(4, 4));
-  var td = länka_in('td', tr, nr.substr(8));
-/* */ 
-  var formulär = länka_in('form', main, '', {
-      'action' : '',
-      'name' : 'avsluta_form',
-      'onsubmit' : 'event.preventDefault();slutfor_registrering(this);return false;',
-      'autocomplete' : 'off',
-      'method' : 'get',
-      'style' : ''
+    var div = länka_in('div', main, model['parameter']['lokalnamn'], {'class' : 'lokal'});  
+    
+  }
+ */  
+  var div = länka_in('div', main, '', {
+      'class' : 'centerdiv'
     
   });
-  var submit_knapp = länka_in('input', formulär, '', {
-      'type' : 'submit',
-      'value' : 'Slutför registrering'
+  var fieldset = länka_in('fieldset', div);
+
+  //var h2 = länka_in('h2', main, 'Nästan klart!');
+  var h2 = länka_in('h2', fieldset, 'Kopplingen är nu gjord för ' + person['fnamn']);
+  //var p = länka_in('p', main, 'Fliken på kuvertet ska vara igenklistrad!');
+  var p = länka_in('p', fieldset, 'Skriv röstlängdsnumret på baksidan av kuvertet');
+  //var nr = person.röstlängdsnr;
+  
+  ladda_jox('GET', 'vallokaler.csv', false, function (response) {
+    
+    var lokaler = läs_csv(response);
+    
+    var nr = kuvertIdTillNr(kuvertid, lokaler);
+    
+    var p = länka_in('p', fieldset);
+    
+    var table = länka_in('table', p, '', {
+      'class' : 'rl_tabell',
+      'style' : 'margin: 0px auto;'
+    });
+    var tr = länka_in('tr', table);
+    var td = länka_in('td', tr, nr.substr(0, 2));
+    var td = länka_in('td', tr, nr.substr(2, 2));
+    var td = länka_in('td', tr, nr.substr(4, 4));
+    var td = länka_in('td', tr, nr.substr(8), {
+        'style' : 'text-align: right'
+    });
+   
+    var formulär = länka_in('form', fieldset, '', {
+        'action' : '',
+        'name' : 'avsluta_form',
+        'onsubmit' : 'event.preventDefault();slutfor_registrering(this);return false;',
+        'autocomplete' : 'off',
+        'method' : 'get',
+        'style' : ''
+      
+    });
+    var submit_knapp = länka_in('input', formulär, '', {
+        'type' : 'submit',
+        //'value' : 'Slutför registrering'
+        'value' : 'Gå vidare >'
+      
+    });
+    
+    return false;
     
   });
 
@@ -1494,27 +1520,47 @@ function koppling_gjord(formulär) {
 function slutfor_registrering(formulär) {
   
   main.innerHTML = '';
+/*   if (model['parameter']['lokalnamn']) {
   
-  var h2 = länka_in('h2', main, '✔️ Klart');
+    var div = länka_in('div', main, model['parameter']['lokalnamn'], {'class' : 'lokal'});  
+    
+  }
+ */
+  var div = länka_in('div', main, '', {
+      'class' : 'centerdiv'
+    
+  });
+  var fieldset = länka_in('fieldset', div);
+  
+  var rubrik = länka_in('h2', fieldset);
+  var span = länka_in('span', rubrik, '✓ ', {
+      'style' : 'font-size: 60px; color: green'
+  });
+  var span = länka_in('span', rubrik, ' Klart');
 
-  var p = länka_in('p', main, person['fnamn'] + ' ' + person['enamn'] + ' har nu förtidsröstat!');
+  var p = länka_in('p', fieldset, person['fnamn'] + ' ' + person['enamn'] + ' har nu förtidsröstat!');
   
-  var kör = länka_in('input', main, '', {
+  var kör = länka_in('input', fieldset, '', {
       'type' : 'submit',
       'onclick' : 'window.location.reload();',
-      'value' : 'Ta emot ny röst'
+      'value' : 'Ta emot ny röst >'
     
   });
 
   kör.focus();
+  /*
+  var a = länka_in('a', main, 'test', {
+      'href' : '?'
+  });
+  */
 }
 
 function budrostning() {
+  /*
   var main = document.getElementsByTagName('main')[0];
   
   var sok_pnr = document.getElementById('valjare_pnr').value;
 
-  console.log('Budröstning med pnr:' + sok_pnr);
   window.scrollTo(0, 100);
 
   person = hitta_i_datat(model['person'], 'personnummer', sok_pnr);
@@ -1687,53 +1733,682 @@ function budrostning() {
       'style' : 'margin-left: -10px; font-size: 1.8rem'
     
   });
-  
+  */
   
 }
 
 function efterregistrera() {
-  console.log('efterregistrera');
+  kollaLokal();
+
   var main = sätt_upp_basic_sida();
   var body = document.getElementsByTagName('body')[0];
   body.setAttribute('class', 'valfunk');
   
-  länka_in('p', main, 'Här kan nedkopplade förtidsröster efterregistreras.');
+  länka_in('p', main, 'Efterregistrera en förtidsröst som tagits emot i nedkopplat läge.');
+  var div = länka_in('div', main, '', {
+      'style' : 'display:flex;gap:10px;flex-wrap:wrap;'
+  });
   
+  var inner = länka_in('div', div);
+  var h3 = länka_in('h3', inner, 'Röstningslokal');
+  
+  var sel = länka_in('select', inner, '', {
+      'onchange' : 'uppdatera("lokalid", this.value);uppdatera("lokalnamn", this.options[this.selectedIndex].text);'
+  });
+  var inner = länka_in('div', div);
+  var h3 = länka_in('h3', inner, 'Datum');
+  var datum = länka_in('input', inner, '', {
+      'type':"date",
+      'id':"meeting-time",
+      'name':"meeting-time",
+      'value':"2026-08-30",
+      'min':"2026-08-26",
+      'max':"2026-09-12",
+  });
+  
+  var tom = länka_in('option', sel, '');
+  
+  if (model['inloggad']['behörighet']['FR']) {
+  
+    ladda_jox('GET', 'rostningslokaler.csv', false, function (response) {
+      
+      var lokaler = läs_csv(response, [0, 2], 7);
+      
+      var min_kommun = model['inloggad']['behörighet']['FR'];
+      
+      //länka_in('p', main, lokaler[model['inloggad']['behörighet']['FR']]['LOKAL']);
+      
+      if (typeof lokaler[min_kommun] !== 'undefined') {
+        
+        var mina_lokaler = lokaler[min_kommun];
+        
+        mina_lokaler.sort(sorteraNamn);
+
+        function sorteraNamn(a, b) {
+                
+                return a['LOKAL'].localeCompare(b['LOKAL']);
+        }
+        
+        for (var i = 0; i < mina_lokaler.length; i++) {
+          
+          var opt = länka_in('option', sel, mina_lokaler[i]['LOKAL'], {
+              'value' : mina_lokaler[i]['LOKALID']
+          });
+
+          if (model['parameter']['lokalid'] && model['parameter']['lokalid'] == mina_lokaler[i]['LOKALID']) {
+            
+            opt.setAttribute('selected', 'selected');
+            
+          }
+
+          
+        }
+        
+        uppdatera();
+        
+      }
+      
+      return false;
+    
+    });
+    
+  }
+
+  /*
+  if (model['parameter']['lokalid']) {
+  
+    var div = länka_in('div', main);  
+    var dt = länka_in('dt', div, 'Lokal');
+    var dd = länka_in('dd', div, model['parameter']['lokalnamn']);
+    
+  } else {
+    
+    var p = länka_in('p', main);
+    var a = länka_in('a', p, 'Välj först lokal', {
+        'href' : '?sida=fortidsrostning'
+      
+    });
+    
+  }
+  */
+  var inner = länka_in('div', div);
+  länka_in('h3', inner, 'Ambulerande?');
+  
+  var tabs = länka_in('div', inner, '', {
+      'class' : 'tabs'
+  });
+  
+  var input = länka_in('input', tabs, null, {
+      'type' : 'checkbox',
+      'class' : 'menyknapp',
+      'name' : 'anledning',
+      'value' : 'ambulerande',
+      'id' : 'ambulerande',
+      'oninput' : 'document.getElementById("pnr_input").focus()'
+  }); 
+  var label = länka_in('label', tabs, 'Ambulerande', {
+      'for' : 'ambulerande'
+  });
+    
+  länka_in('h3', main, 'Väljarens personnummer');
+
+  
+  var id_form = länka_in('form', main, '', {
+      'action' : '',
+      'name' : 'valjare_pnr',
+      'onsubmit' : 'event.preventDefault();sok_person(this, "efterregistrera2");return false;',
+      'autocomplete' : 'off',
+      'method' : 'get'
+  });
+  
+  var sökruta = sökPersonnummer(id_form, 'pnr', '', false);
+  
+  sökruta.setAttribute('placeholder', '10 eller 12 siffror');
+  
+  sökruta.focus();
+
+
+}
+
+function efterregistrera2() {
+  
+  uppdatera();
+  
+  var main = document.getElementsByTagName('main')[0];
+    
+  main.innerHTML = '';
+
+  var spinner = loader(main);
+  
+  var backa = länka_in('a', main, '< Avbryt', {
+      'onclick' : 'window.location.reload();',
+      'href' : '#',
+      'style' : 'padding-bottom: 10px'
+  });
+/*   if (model['parameter']['lokalnamn']) {
+  
+    var div = länka_in('div', main, model['parameter']['lokalnamn'], {'class' : 'lokal'});  
+    
+  }
+ */    
+  if (person['personnummer'] == model['inloggad']['personnummer']) {
+    
+    //var p = länka_in('p', main, '(Du kan inte registrera din egen röst, inloggad = väljare...)');
+    
+    console.log('(Du kan inte registrera din egen röst, inloggad = väljare...)');
+    
+  }
+
   var ol = länka_in('ol', main);
-  var li = länka_in('li', ol, 'Välj vilken plats som ska efterregistreras för.');
-  var li = länka_in('li', ol, 'Varför nedkopplad?');
-  var li = länka_in('li', ol, 'Ambulerande');
-  var li = länka_in('li', ol, 'Avbrott');
-  var li = länka_in('li', ol, 'Makulera');
-  var li = länka_in('li', ol, 'Tillägg utlandssvensk');
-  var li = länka_in('li', ol, 'Sök fram person utifrån efterregistreringsinfo.');
-  var li = länka_in('li', ol, 'Gör "som vanligt".');
-  var li = länka_in('li', ol, 'Börja om, utan att behöva välja plats igen...');
+  var li = länka_in('li', ol);
+  //var textblock = länka_in('span', li, 'Säkerställ väljarens identitet:');
+  var textblock = länka_in('span', li, 'Kontrollera väljarens identitet');
+
+  var personnummer_text = person.personnummer.substr(0, 4) + ' ';
+  personnummer_text += person.personnummer.substr(4, 2) + ' ';
+  personnummer_text += person.personnummer.substr(6, 2) + ' ';
+  personnummer_text += ' - ';
+  personnummer_text += person.personnummer.substr(8, 4);
   
-  länka_in('p', main, 'Den här typen av röster kan inte efterregistreras:');
+  var dl = länka_in('dl', li, '', {
+      'style' : 'gap: 30px'
+  }); 
   
-  var ol = länka_in('ol', main);
-  var li = länka_in('li', ol, 'Välj vilken plats som ska efterregistreras för.');
-  var li = länka_in('li', ol, 'Varför nedkopplad?');
-  var li = länka_in('li', ol, 'Ambulerande');
-  var li = länka_in('li', ol, 'Avbrott');
-  var li = länka_in('li', ol, 'Makulera');
-  var li = länka_in('li', ol, 'Tillägg utlandssvensk');
-  var li = länka_in('li', ol, 'Sök fram person utifrån efterregistreringsinfo.');
-  var li = länka_in('li', ol, 'Gör "som vanligt".');
-  var li = länka_in('li', ol, 'Börja om, utan att behöva välja plats igen...');
+
+  var div = länka_in('div', dl);
+  var dt = länka_in('dt', div, 'Förnamn');
+  var dd = länka_in('dd', div, person.fnamn);
+  
+  var div = länka_in('div', dl);
+  var dt = länka_in('dt', div, 'Efternamn');
+  var dd = länka_in('dd', div, person.enamn);
+
+  var div = länka_in('div', dl);  
+  var dt = länka_in('dt', div, 'Personnummer');
+  var dd = länka_in('dd', div, personnummer_text);
+  
+  if (person.röstlängdsnr.length > 2) {
+
+
+    var li = länka_in('li', ol);
+
+    //var textblock = länka_in('span', li, 'Ovanstående uppgifter har hämtats från:');
+    var textblock = länka_in('span', li, 'Markera hur väljaren har identifierat sig, enligt talong');
+
+    
+    var tabs = länka_in('div', li, '', {
+        'class' : 'tabs'
+    });
+    
+    var input = länka_in('input', tabs, null, {
+        'type' : 'radio',
+        'class' : 'menyknapp',
+        'name' : 'id',
+        'value' : 'id',
+        'id' : 'id-handling',
+        'checked' : 'checked'
+    }); 
+    var label = länka_in('label', tabs, 'ID-handling', {
+        'for' : 'id-handling'
+    });
+    
+
+    
+    var input = länka_in('input', tabs, null, {
+        'type' : 'radio',
+        'class' : 'menyknapp',
+        'name' : 'id',
+        'value' : 'intygande',
+        'id' : 'intygande',
+        'oninput' : 'document.getElementById("id-intygande").focus()'
+    }); 
+    var label = länka_in('label', tabs, 'Intygande ▼', {
+        'for' : 'intygande'
+    });
+    
+    
+    var input = länka_in('input', tabs, null, {
+        'type' : 'radio',
+        'class' : 'menyknapp',
+        'name' : 'id',
+        'value' : 'kand',
+        'id' : 'kand',
+        'oninput' : 'document.getElementById("id-kand").focus()'
+    }); 
+    var label = länka_in('label', tabs, 'Känd av röstmottagare ▼', {
+        'for' : 'kand'
+    });
+
+    var input = länka_in('input', tabs, null, {
+        'type' : 'radio',
+        'class' : 'menyknapp',
+        'name' : 'id',
+        'value' : 'bud',
+        'id' : 'budr',
+        'oninput' : 'document.getElementById("id-bud").focus()'
+    }); 
+    var label = länka_in('label', tabs, 'Budröst', {
+        'for' : 'budr'
+    });
+    
+    var hr = länka_in('hr', tabs);
+    
+    var div = länka_in('div', tabs, '', {
+        'id' : 'tabs-content-bud'
+    });
+    var label = länka_in('label', div, 'Budets identitet enligt uppvisad ID-handling:', {
+        'for' : 'id-bud'
+    });
+    var input = länka_in('input', div, '', {
+        'type' : 'text',
+        'id' : 'id-bud',
+        'inputmode' : 'numeric',
+        'autocomplete' : 'off',
+        'required' : 'required',
+        'maxlength' : '15',
+        'form' : 'koppla_form',
+        'style' : 'margin-left: 10px'
+      
+    });
+    var div = länka_in('div', tabs, '', {
+        'id' : 'tabs-content-intygande'
+    });
+    var label = länka_in('label', div, 'Intygandes personnummer enligt uppvisad ID-handling:', {
+        'for' : 'id-intygande'
+    });
+    var input = länka_in('input', div, '', {
+        'type' : 'text',
+        'id' : 'id-intygande',
+        'inputmode' : 'numeric',
+        'autocomplete' : 'off',
+        'required' : 'required',
+        'form' : 'koppla_form',
+        'style' : 'margin-left: 10px',
+        'maxlength' : '13',
+        'pattern' : '(19|20)?[0-9]{2}(01|02|03|04|05|06|07|08|09|10|11|12)(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)[\\-]?[0-9]{4}'
+
+      
+    });
+    var div = länka_in('div', tabs, '', {
+        'id' : 'tabs-content-kand'
+    });
+    var label = länka_in('label', div, 'Röstmottagarens initialer:', {
+        'for' : 'id-kand'
+    });
+    var input = länka_in('input', div, '', {
+        'type' : 'text',
+        'id' : 'id-kand',
+        'inputmode' : 'numeric',
+        'autocomplete' : 'off',
+        'required' : 'required',
+        'maxlength' : '4',
+        'form' : 'koppla_form',
+        'style' : 'width: 100px; margin-left: 10px;',
+        'pattern' : '.{2}'
+      
+    });
+    
+  } else if (person.rd.length > 2) {
+    
+    var li = länka_in('li', ol);
+    
+    var p = länka_in('p', li, person.fnamn + ' ' + person.enamn + ' har rösträtt, men är inte inskriven i en röstlängd.');
+    
+    var p = länka_in('p', li, 'Valnämnden kan kontakta Valmyndigheten för att lägga till den röstberättigade.');    
+
+  }
+  
+  
+  
+  if (person.röstlängdsnr.length > 2) {
+
+    var li = länka_in('li', ol);
+
+    //var textblock = länka_in('span', li, 'Skanna kuvert-ID på kuvertet, eller ange manuellt:');
+    var textblock = länka_in('span', li, 'Skanna eller mata in kopplingskod');
+    
+    var formulär = länka_in('form', li, '', {
+        'action' : '',
+        'name' : 'koppla_form',
+        'onsubmit' : 'event.preventDefault();koppling_gjord(this);return false;',
+        'autocomplete' : 'off',
+        'method' : 'get'
+      
+    });
+    
+    var input = länka_in('input', formulär, '', {
+        'type' : 'text',
+        'id' : 'koppla',
+        'inputmode' : 'numeric',
+        'required' : 'required',
+        'maxlength' : '13',
+        'pattern' : '^(?!(19|20)?[0-9]{2}(01|02|03|04|05|06|07|08|09|10|11|12)(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)[\\-]?[0-9]{4}).*'
+      
+    });
+    
+    input.focus();
+    
+    var submit_knapp = länka_in('input', formulär, '', {
+        'type' : 'submit',
+        'value' : 'Koppla'
+      
+    });
+  }
+  
+  window.scrollTo(0, 100);
+
+}
+
+
+function snabbfraga() {
+  
+  var main = sätt_upp_basic_sida();
+  var body = document.getElementsByTagName('body')[0];
+  body.setAttribute('class', 'valfunk');
+  
+  
+  länka_in('h3', main, 'Kuvertets ID');
+
+  länka_in('p', main, 'Skanna eller mata in kopplingskoden nedan.');
+  
+  var id_form = länka_in('form', main, '', {
+      'action' : '',
+      'name' : 'kuvert-ID',
+      'onsubmit' : 'uppdatera("kuvert-ID", document.getElementById("kuvert-ID_input").value, true);event.preventDefault();sok_kuvert();return false;',
+      'autocomplete' : 'off',
+      'method' : 'get'
+  });
+  
+  var div = länka_in('div', id_form, '', {
+      'class' : 'textinput-och-knapp'
+  });
+  var input = länka_in('input', div, '', {
+      'type' : 'text',
+      'id' : 'kuvert-ID_input',
+      'name' : 'kuvert-ID',
+      'inputmode' : 'numeric',
+      'required' : 'required',
+      'maxlength' : '13',
+      'pattern' : '^(?!(19|20)?[0-9]{2}(01|02|03|04|05|06|07|08|09|10|11|12)(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)[\\-]?[0-9]{4}).*'
+    
+  });
+  
+  var submit_knapp = länka_in('input', div, '', {
+      'type' : 'submit',
+      'value' : 'Sök'
+    
+  });
+  
+  var svarsdiv = länka_in('div', main, '', {
+      'id' : 'svarsdiv'
+  });
+  input.focus();
+
+}
+
+function sok_kuvert() {
+
+  sätt_upp_sida('visa_kuvert');
+  
+}
+
+function visa_kuvert() {
+  
+  var main = document.getElementsByTagName('main')[0];
+  
+  var spinner = loader(main);
+  
+  ladda_jox('GET', 'vallokaler.csv', false, function (response) {
+    
+    var lokaler = läs_csv(response);
+    var nr = kuvertIdTillNr(model['kuvert-ID'], lokaler);
+    
+    var svarsdiv = document.getElementById('svarsdiv');
+    var input = document.getElementById('kuvert-ID_input');
+    
+    svarsdiv.innerHTML = '';
+    
+    var p = länka_in('p', svarsdiv);
+    var span = länka_in('span', p, 'Kuvert med kuvert-ID ');
+    var span = länka_in('span', p, model['kuvert-ID'], {
+        'style' : 'font-weight: bold'
+    });
+    var span = länka_in('span', p, ' innehåller förtidsröst tillhörig:');
+    
+    var table = länka_in('table', svarsdiv, '', {
+      'class' : 'rl_tabell'    
+    });
+    var tr = länka_in('tr', table);
+    var td = länka_in('td', tr, nr.substr(0, 2));
+    var td = länka_in('td', tr, nr.substr(2, 2));
+    var td = länka_in('td', tr, nr.substr(4, 4));
+    var td = länka_in('td', tr, nr.substr(8), {
+        'style' : 'text-align: right'
+    });
+    
+    input.focus();
+    input.select();
+    
+    return false;
+  
+  });
+
+  
 
   
 }
 
-
-
-function dump() {
-  console.log('dump');
-  var main = sätt_upp_basic_sida(false);
+function ikappregistrera() {
   
-  länka_in('p', main, 'Dump!');
+  kollaLokal();
+  var main = sätt_upp_basic_sida();
+  var body = document.getElementsByTagName('body')[0];
+  body.setAttribute('class', 'valfunk');
   
-  dumpblock(main, model['parameter']);
+  länka_in('p', main, 'Registrera en förtidsröst som tagits emot tidigare under dagen i nedkopplat läge.');
+
+  länka_in('h3', main, 'Ambulerande?');
+  
+  var tabs = länka_in('div', main, '', {
+      'class' : 'tabs'
+  });
+  
+  var input = länka_in('input', tabs, null, {
+      'type' : 'checkbox',
+      'class' : 'menyknapp',
+      'name' : 'anledning',
+      'value' : 'ambulerande',
+      'id' : 'ambulerande',
+      'oninput' : 'document.getElementById("pnr_input").focus()'
+  }); 
+  var label = länka_in('label', tabs, 'Ambulerande', {
+      'for' : 'ambulerande'
+  });
+    
+  länka_in('h3', main, 'Väljarens personnummer, enligt talong');
+
+  
+  var id_form = länka_in('form', main, '', {
+      'action' : '',
+      'name' : 'valjare_pnr',
+      'onsubmit' : 'event.preventDefault();sok_person(this, "efterregistrera2");return false;',
+      'autocomplete' : 'off',
+      'method' : 'get'
+  });
+  
+  var sökruta = sökPersonnummer(id_form, 'pnr', '', false);
+  
+  sökruta.setAttribute('placeholder', '10 eller 12 siffror');
+  
+  sökruta.focus();
+  
+}
+
+function valj_lokal() {
+  
+  var main = sätt_upp_basic_sida();
+  var body = document.getElementsByTagName('body')[0];
+  body.setAttribute('class', 'valfunk');
+  var är_funktionär = typeof model['inloggad']['behörighet'] === 'object';
+
+  
+  länka_in('p', main, 'Här är de platser du är behörig till:');
+  
+  var div = länka_in('div', main, '', {
+      'style' : 'display:flex;gap:10px;flex-wrap:wrap;'
+  });
+  
+  var inner = länka_in('div', div);
+  var h3 = länka_in('h3', inner, 'Röstningslokal');
+  
+  var sel = länka_in('select', inner, '', {
+      'onchange' : 'uppdatera("lokalid", this.value);uppdatera("lokalnamn", this.options[this.selectedIndex].text);window.location.replace(uppdatera_url("?sida=fortidsrostning"))'
+  });
+  
+  var tom = länka_in('option', sel, '');
+  
+  if (model['inloggad']['behörighet']['FR']) {
+  
+    ladda_jox('GET', 'rostningslokaler.csv', false, function (response) {
+      
+      var lokaler = läs_csv(response, [0, 2], 7);
+      
+      var min_kommun = model['inloggad']['behörighet']['FR'];
+      
+      //länka_in('p', main, lokaler[model['inloggad']['behörighet']['FR']]['LOKAL']);
+      
+      if (typeof lokaler[min_kommun] !== 'undefined') {
+        
+        var mina_lokaler = lokaler[min_kommun];
+        
+        mina_lokaler.sort(sorteraNamn);
+
+        function sorteraNamn(a, b) {
+                
+                return a['LOKAL'].localeCompare(b['LOKAL']);
+        }
+        
+        for (var i = 0; i < mina_lokaler.length; i++) {
+          
+          var opt = länka_in('option', sel, mina_lokaler[i]['LOKAL'], {
+              'value' : mina_lokaler[i]['LOKALID']
+          });
+
+          if (model['parameter']['lokalid'] && model['parameter']['lokalid'] == mina_lokaler[i]['LOKALID']) {
+            
+            opt.setAttribute('selected', 'selected');
+            
+          }
+
+          
+        }
+        
+        uppdatera();
+        
+      }
+      
+      return false;
+    
+    });
+    
+  }
+
+/*
+  if (är_funktionär) {
+    
+    if (model['inloggad']['behörighet']['FR']) {
+    
+      ladda_jox('GET', 'rostningslokaler.csv', false, function (response) {
+        
+        var lokaler = läs_csv(response, [0, 2], 7);
+        
+        var min_kommun = model['inloggad']['behörighet']['FR'];
+        
+        //länka_in('p', main, lokaler[model['inloggad']['behörighet']['FR']]['LOKAL']);
+        
+        if (typeof lokaler[min_kommun] !== 'undefined') {
+          
+          var mina_lokaler = lokaler[min_kommun];
+          
+          mina_lokaler.sort(sorteraNamn);
+
+          function sorteraNamn(a, b) {
+                  
+                  return a['LOKAL'].localeCompare(b['LOKAL']);
+          }
+          
+          for (var i = 0; i < mina_lokaler.length; i++) {
+            
+            var p = länka_in('p', main);
+            var a = länka_in('a', p, mina_lokaler[i]['LOKAL'], {
+                'href' : '?sida=ta_emot_fortidsrost&lokalnamn=' + mina_lokaler[i]['LOKAL'] + '&lokalid=' + mina_lokaler[i]['LOKALID']
+                //'onclick' : 'uppdatera("lokal", "' + mina_lokaler[i]['LOKALID'] + '")'
+              
+            });
+            
+          }
+          
+          uppdatera();
+          
+        }
+        
+        return false;
+      
+      });
+      
+    }
+    
+  }
+  */
+}
+
+function oppna_stang_fortidsrostning() {
+  
+  kollaLokal();
+  var main = sätt_upp_basic_sida();
+  var body = document.getElementsByTagName('body')[0];
+  body.setAttribute('class', 'valfunk');
+  
+  var p = länka_in('p', main);
+  var span = länka_in('span', p, 'Röstmottagningen i ');
+  var span = länka_in('span', p, model['parameter']['lokalnamn'], {
+      'style' : 'font-weight: bold'
+      
+  });
+  var span = länka_in('span', p, ' är just nu:');
+
+  
+  if (model['parameter']['lokalstatus'] != 'ok') {
+    
+    var p = länka_in('p', main, 'STÄNGD', {
+        'style' : 'font-weight: bold'
+    });
+    
+    var p = länka_in('p', main, 'Klicka här för att öppna röstmottagningen:');
+    
+    var öppna = länka_in('input', main, 'hel', {
+      'type' : 'button',
+      'style' : 'background-color: green;',
+      'value' : 'Öppna röstmottagningen',
+      'onclick' : 'if (confirm("Röstmottagningen kommer att öppna för dagen!") == false) {return false;};uppdatera("lokalstatus", "ok");window.location.replace(uppdatera_url("?sida=fortidsrostning"))'
+      
+    });
+    
+  } else {
+    
+    var p = länka_in('p', main, 'ÖPPEN', {
+        'style' : 'font-weight: bold'
+    });
+
+    var p = länka_in('p', main, 'Klicka på knappen för att stänga röstmottagningen.');
+    var p = länka_in('p', main, 'Observera att INGEN längre då kan ta emot röster!');
+    
+    var stäng = länka_in('input', main, 'hel', {
+      'type' : 'button',
+      'style' : 'background-color: tomato;',
+      'value' : 'Stäng röstmottagningen',
+      'onclick' : 'if (confirm("Vill du verkligen stänga röstmottagningen för dagen?") == false) {return false;};uppdatera("lokalstatus", "stangd");window.location.replace(uppdatera_url("?sida=fortidsrostning"))'
+      
+    });  }
   
 }
