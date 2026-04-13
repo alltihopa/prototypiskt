@@ -1,5 +1,5 @@
 {
-  "meny" : {
+  "menyer" : {
     "a" : [
       {
         "sida" : "start",
@@ -59,35 +59,31 @@
                 "namn" : "Röstmottagning i vallokal",
                 "undersidor" : [
                   {
-                    "sida" : "om_rostmottagningen",
-                    "namn" : "Om röstmottagningen"
-                  },
-                  {
                     "sida" : "ta_emot_rost",
                     "namn" : "Ta emot röst"
                   },
                   {
+                    "sida" : "granska_fortidsrost",
+                    "namn" : "Granska förtidsröster"
+                  },
+                  {
                     "sida" : "rapportera_resultat",
                     "namn" : "Rapportera preliminärt valresultat"
-                  }          
+                  }         
                 ]
               },
               {
                 "sida" : "fortidsrostning",
                 "namn" : "Förtidsröstning",
                 "undersidor" : [
-                   {
-                    "sida" : "om_fortidsrostningen",
-                    "namn" : "Om förtidsröstningen"
-                  },
                   {
                     "sida" : "ta_emot_fortidsrost",
                     "namn" : "Registrera förtidsröst"
                   },        
                   {
-                    "sida" : "efterregistrera",
-                    "namn" : "Efterregistrera förtidsröst"
-                  }    
+                    "sida" : "snabbfraga",
+                    "namn" : "Identifiera förtidsröst"
+                  }
                 ]
               },
               {
@@ -99,6 +95,20 @@
           {
             "sida" : "om_mig",
             "namn" : "Om mig/inställningar"
+          },
+          {
+            "sida" : "finis_start",
+            "namn" : "Start",
+            "undersidor" : [
+              {
+                "sida" : "efterregistrera_centralt",
+                "namn" : "Efterregistrera centralt"
+              },
+              {
+                "sida" : "efterregistrera_lokalt",
+                "namn" : "Efterregistrera lokalt"
+              }
+            ]
           }
         ] 
       } 
@@ -115,47 +125,57 @@
         ]
       }
     ],
-    "c" : [
-      {
-        "sida" : "fortidsrostning",
-        "namn" : "Förtidsröstning",
-        "undersidor" : [
-           {
-            "sida" : "valj_lokal",
-            "namn" : "Välj lokal"
-          },
-          {
-            "sida" : "oppna_stang_fortidsrostning",
-            "namn" : "Öppna/stäng förtidsröstning"
-          },
+    "r" : [
+
           {
             "sida" : "ta_emot_fortidsrost",
             "namn" : "Ta emot förtidsröst"
           },
           {
-            "sida" : "ikappregistrera",
-            "namn" : "Registrera nedkopplad förtidsröst"
+            "sida" : "snabbfraga",
+            "namn" : "Identifiera förtidsröst"
+          }
+
+    ],
+    "d" : [
+          {
+            "sida" : "ta_emot_rost",
+            "namn" : "Ta emot röst"
+          }          
+
+    ],
+    "v" : [
+          {
+            "sida" : "efterregistrera_centralt",
+            "namn" : "Efterregistrera"
           },
           {
             "sida" : "snabbfraga",
-            "namn" : "Sök kuvert"
+            "namn" : "Identifiera förtidsröst"
+          }
+    ],
+    "k" : [
+      {
+        "sida" : "finis_start",
+        "namn" : "Start",
+        "undersidor" : [
+          {
+            "sida" : "efterregistrera_lokalt",
+            "namn" : "Efterregistrera"
           }
         ]
       }
     ]
   },
-  "kopplingskod" : [
-    {
-      "kopplingskod" : "4635858394955",
-      "rostande" : "a"
-    },
-    {
-      "kopplingskod" : "5844738482934", 
-      "rostande" : "b"
-    }
-  ],
-  "parameter" : {
-    "inloggad" : "",
-    "meny" : "c"
-  }
+  "inloggad" : "",
+  "meny" : "r",
+  "kommun" : "0181",
+  "vnr" : 41,
+  "aktuellt_vnr" : 41,
+  "antalvnr" : 20,
+  "vf_sista_nr" : "",
+  "nedkopplad" : "",
+  "budrost" : "",
+  "reggade_froster" : {},
+  "rostat" : {}
 }

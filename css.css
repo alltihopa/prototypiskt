@@ -42,6 +42,7 @@ main {
 footer {
     position: relative;
     grid-area: f;
+    z-index: -1;
     background-color: skyblue;
     padding: 10px 10px 50px 10px;
 }
@@ -55,6 +56,26 @@ body.valfunk > footer {
     background-color: aliceblue;
 }
 
+
+body.finis {
+    background-color: white;
+}
+body.finis > header{
+    background-color: white;
+    border-bottom: 1px solid #cccccc;
+}
+body.finis > main {
+    background-color: white;
+}
+body.finis > footer {
+    background-color: #cccccc;
+    border-top: 5px solid red;
+}
+body.finis > header > label.menyknapp {
+  color: red;
+}
+
+
 main h1 {
   line-height: 3rem;
   
@@ -64,7 +85,7 @@ main h1 {
   display: grid; 
   place-items: center;
   position: absolute; 
-  top: 0; 
+  top: 30px; 
   left: 0; 
   right: 0; 
   bottom: 0; 
@@ -140,6 +161,11 @@ select {
   padding: 14px;
   margin-bottom: 10px;
 }
+optgroup {
+  position: relative; 
+  left: -10px;
+  background-color: #eeeeee;
+}
 input[type=date] {
   padding: 12px;
   
@@ -154,24 +180,24 @@ main label {
   display: block;
   margin-bottom: 3px;
 }
-label.menyknapp:hover {
+label.menyknapp:hover,
+label.check:hover {
   cursor: pointer;
 }
 input.menyknapp:checked + label {
-  background-color: white;
-  outline: 1px solid #cccccc;
+  outline: 3px solid #aaaaaa;
 }
 main input.menyknapp:checked + label {
   padding: 10px;
   border-radius: 5px;
 }
 main input.menyknapp:not(:checked) + label {
-  color: gray;
+  
   
 }
 main input.menyknapp:not(:checked) + label:before {
   content: '⦾︎ ';
-  color: lightgray;
+  color: gray;
 }
 main input.menyknapp:checked + label:before {
   content: '⦿︎ ';
@@ -200,7 +226,8 @@ input.menyknapp:hover + label {
   background-color: rgba(255,255,255,0.7);
   outline: 3px solid rgba(0,0,0,0.1);
 }
-input.menyknapp {
+input.menyknapp,
+input.check {
   position:absolute;
   opacity: 0;
 }
@@ -210,8 +237,28 @@ input.menyknapp:disabled + label {
   
 }
 
-form {
-  position: relative;
+input.check:not(:checked) + label:before {
+  content: '☐ ';
+}
+input.check:checked + label:before {
+  content: '☒ ';
+}
+#tabs-content-budrost,
+#tabs-content-inte-budrost {
+  display: none;
+}
+
+input#hantera-som-budrost:not(:checked) ~ #tabs-content-inte-budrost,
+input#hantera-som-budrost:checked ~ #tabs-content-budrost {
+  display: block;
+  width: 100%;
+  flex-basis: 100%;
+
+}
+
+
+#pnr_input {
+  max-width: 300px;
 }
 
 nav li a {
@@ -240,14 +287,22 @@ nav li a:hover {
   padding: 5px 5px 15px 5px;
   border-radius: 5px;
 }
+#tabs-content-uppkopplad,
+#tabs-content-nedkopplad,
 #tabs-content-bud,
 #tabs-content-intygande,
-#tabs-content-kand {
+#tabs-content-kand,
+#budrost-tabs-content-intygande,
+#budrost-tabs-content-kand  {
   display: none;
 }
+#uppkopplad:checked ~ #tabs-content-uppkopplad,
+#nedkopplad:checked ~ #tabs-content-nedkopplad,
 #bud:checked ~ #tabs-content-bud,
 #intygande:checked ~ #tabs-content-intygande,
-#kand:checked ~ #tabs-content-kand {
+#kand:checked ~ #tabs-content-kand,
+#budrost-intygande:checked ~ #budrost-tabs-content-intygande,
+#budrost-kand:checked ~ #budrost-tabs-content-kand {
   display: block;
   width: 100%;
   flex-basis: 100%;
@@ -263,7 +318,7 @@ nav li a:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  
+  z-index: 1000;
 }
 #inloggning .test {
   position: absolute;
@@ -271,6 +326,37 @@ nav li a:hover {
   padding: 5px;
   width: 100%;
   background: repeating-linear-gradient(-45deg, rgba(255, 165, 0, .2) , rgba(255, 165, 0, .2)  20px, rgba(60, 60, 60, .2) 20px, rgba(60, 60, 60, .2) 40px) !important;
+}
+
+.steg {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.steg > div {
+  background-color: #F7FAFB;
+  padding: 0 0 0 5px;
+}
+.steg > div > span:nth-child(1) {
+  border: 2px solid navy;
+  border-radius: 50%;
+  padding: 5px 10px;
+}
+.steg > div > span:nth-child(2) {
+  padding: 0 5px 0 10px;
+}
+
+.steg > div.sel > span:nth-child(1) {
+  color: white;
+  background-color: navy;
+  outline: 2px solid navy;
+  border: 2px solid white;
+}
+.steg > div.sel > span:nth-child(2) {
+  font-weight: bold;
 }
 
 .knapp {
@@ -292,6 +378,7 @@ fieldset {
   border: none;
   padding: 0;
   text-align: center;
+  max-width: 700px;
 }
 legend {
   font-size: 1.5rem;
@@ -339,7 +426,7 @@ main ol > li {
   padding: 10px;
   margin: 0 0 10px 0;
 }
-main ol > li > span {
+main ol li span {
   font-weight: bold;
   font-size: large;
 }
@@ -351,7 +438,8 @@ main ol > li > ol > li {
   margin: 0;
 }
 
-input[type=text] {
+input[type=text],
+input[type=url] {
   padding: 15px;
   font-size: medium;
   border-radius: 30px;
@@ -433,10 +521,9 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.riksdag:before {
-  content: "RD";
-  padding-right: 10px;
-  font-weight: bold;
+.riksdag:hover {
+  background-color: gold;
+  cursor: pointer;
 }
 .region {
   background-color: LightCyan; 
@@ -444,10 +531,9 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.region:before {
-  content: "RF";
-  padding-right: 10px;
-  font-weight: bold;
+.region:hover {
+  background-color: lightblue;
+  cursor: pointer;
 }
 .kommun {
   background-color: white; 
@@ -455,16 +541,19 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.kommun:before {
-  content: "KF";
-  padding-right: 10px;
-  font-weight: bold;
+.kommun:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
 .folkomr {
   background-color: pink; 
   border: 1px solid white; 
   padding: 10px;
   border-radius: 5px;
+}
+.folkomr:hover {
+  background-color: hotpink;
+  cursor: pointer;
 }
 .eu {
   background-color: navy; 
@@ -496,15 +585,17 @@ summary:hover {
   cursor: pointer;
 }
 
+
+
 table, th, td {
   padding: 10px;
   text-align: left;
 }
 .rl_tabell {
-  border: 3px solid black; 
-  border-collapse: collapse;
-  max-width: 90%;
-  margin-bottom: 20px;
+//  border: 3px solid black; 
+//  border-collapse: collapse;
+//  max-width: 90%;
+  margin: 0 auto 20px auto;
   font-size: 1.5rem;
 }
 .rl_tabell td {
@@ -513,16 +604,25 @@ table, th, td {
   padding: 10px;
 }
 .rl_tabell td:nth-child(1) {
-  width: 20%;
+  width: 100px;
+  text-align: right;
 }
 .rl_tabell td:nth-child(2) {
-  width: 20%;
+  width: 40px;
+  border: 3px solid transparent;
 }
 .rl_tabell td:nth-child(3) {
-  width: 30%;
+  width: 40px;
 }
 .rl_tabell td:nth-child(4) {
-  width: 30%
+  width: 40px
+}
+.rl_tabell td:nth-child(5) {
+  width: 80px
+}
+.rl_tabell td:nth-child(6) {
+  width: 80px;
+  text-align: right;
 }
 
 @keyframes loader_container {

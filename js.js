@@ -19,13 +19,11 @@ window.onload = function() {
   
 }
 
-function ladda_get_parametrar() {
+function ladda_get_parametrar(url_text) {
   
-  if (window.location.search) {
-      
-    var url = decodeURI(window.location.search);
-    
-    var delar = url.substring(1).split('&');
+  if (url_text) {
+    console.log('ladda get ' + url_text)
+    var delar = url_text.split('&');
     
     for (var i = 0; i < delar.length; i++) {
       
@@ -33,15 +31,15 @@ function ladda_get_parametrar() {
       
       if (!parameter[0]) continue;
       
-      model['parameter'][parameter[0]] = parameter[1] || '';
-      
+      //model['parameter'][parameter[0]] = parameter[1] || '';
+      model[parameter[0]] = parameter[1] || '';
+      console.log(parameter[0], parameter[1]);
+     
 //      get_parametrar[parameter[0]] = parameter[1] || '';
         
     }
     
   }
-  
-//  console.log(model['parameter']);
   
 }
 
@@ -55,9 +53,15 @@ function ladda_data() {
     
       model['person'] = läs_csv(response);
       
-      ladda_get_parametrar();
+      if (window.location.search) {
+          
+        var url_text = decodeURI(window.location.search.substring(1));
+        
+        ladda_get_parametrar(url_text);
+        
+      }
       
-      sätt_upp_sida(bestäm(model['parameter'], 'sida'));
+      sätt_upp_sida(bestäm(model, 'sida'));
       
       uppdatera();
       
@@ -99,7 +103,7 @@ function läs_csv(csv, id_columns=[]) {
 
   var mål = [];
 
-  for (let i = 0; i < rader.length; i++) {
+  for (let i = 0; i < rader.length-1; i++) {
     
     var rad = rader[i].trim().split(d);
     
@@ -183,13 +187,29 @@ function läs_csv(csv, id_columns=[]) {
 }
 
 function bestäm(mängd={}, namn=false, värde=false) {
-
+  
+  if (typeof mängd === 'undefined') {
+    
+    return värde;
+    
+  }
+  
+  if (typeof mängd[namn] === 'undefined') {
+    
+    return värde;
+    
+  }
+  
   if (mängd[namn]) {
-    värde = mängd[namn];
+    
+    return mängd[namn];
+    
   }
   
   if (namn in mängd) {
-    värde = mängd[namn];
+    
+    return mängd[namn];
+    
   }
 
   return värde;
@@ -204,15 +224,21 @@ function sätt_upp_sida(sida=false) {
     
   } else {
     
-    efterfrågad_sida = model['meny'][model['parameter']['meny']][0]['sida'];
-
-    //efterfrågad_sida = bestäm(model['parameter'], 'sida');
+    if (model['sida']) {
+      
+      efterfrågad_sida = model['sida'];
+      
+    } else {
+      
+      efterfrågad_sida = model['menyer'][model['meny']][0]['sida'];
+      
+    }
   
   }
   
   console.log('sätter upp sidan ' + efterfrågad_sida);
   
-  console.log('model', model);
+  //console.log('model', model);
   
   if (!kolla_sida(efterfrågad_sida)) {
     
@@ -241,11 +267,10 @@ function kolla_sida(sida) {
   
 }
 
-function uppdatera(namn=false, värde=false, lokal=false) {
-  
+function uppdatera(namn=false, värde=false, lokal=true) {
   
   model[namn] = värde;
-  //console.log(model);
+  
   if (lokal) {
     //console.log('uppdatera: ' + namn + '=' + värde, 'lokal=' + lokal);
     return false;
@@ -255,7 +280,7 @@ function uppdatera(namn=false, värde=false, lokal=false) {
   if (värde) {
     console.log('uppdatera: ' + namn + '=' + värde, 'lokal=' + lokal);
 //    get_parametrar[namn] = värde;
-    model['parameter'][namn] = värde;
+    model[namn] = värde;
   
   }
   
@@ -290,7 +315,7 @@ function uppdatera(namn=false, värde=false, lokal=false) {
       
     }
 
-    var allt = Object.assign({}, model['parameter'], länk_param, nytt);
+    var allt = Object.assign({}, model, länk_param, nytt);
     
     for (var a in allt) {
       if (a == namn && värde == '') {
@@ -311,6 +336,50 @@ function uppdatera(namn=false, värde=false, lokal=false) {
   }
     
 }
+
+function openFullscreen() {
+  
+  var elem = document.documentElement;
+  
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+  document.getElementById('menyknapp_huvudmeny').checked = false;
+  
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  } 
+  
+  document.getElementById('menyknapp_huvudmeny').checked = false;
+
+}
+
+function fullscreen() {
+  
+  if (document.fullscreenElement) {
+    
+    closeFullscreen();
+    
+  } else {
+    
+    openFullscreen();
+    
+  }
+
+}
+
 
 function uppdatera_url(länk, nytt_namn=false, nytt_värde=false) {
   //läs
@@ -345,7 +414,7 @@ function uppdatera_url(länk, nytt_namn=false, nytt_värde=false) {
     
   }
   
-  var allt = Object.assign({}, model['parameter'], länk_param, nytt);
+  var allt = Object.assign({}, model, länk_param, nytt);
   
   for (var a in allt) {
     if ((a == nytt_namn && nytt_värde == '')) {
@@ -362,7 +431,7 @@ function uppdatera_url(länk, nytt_namn=false, nytt_värde=false) {
     
   }
   parameter_url = parameter_url.substring(0, parameter_url.length - 1);
-  console.log(parameter_url);
+  //console.log(parameter_url);
   return grund + parameter_url;
 
 }
