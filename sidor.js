@@ -1243,6 +1243,8 @@ function bekrafta_ta_emot() {
   
   if (model.rostat.rd == true) {
     
+    model['antal_roster'].rd++;
+    
     var rad = länka_in('div', div);
     var span = länka_in('span', rad, '✓', {
       'style' : 'color: green; padding-right:5px;font-weight:bold'
@@ -1251,6 +1253,8 @@ function bekrafta_ta_emot() {
     
   }
   if (model.rostat.kf == true) {
+
+    model['antal_roster'].kf++;
     
     var rad = länka_in('div', div);
     var span = länka_in('span', rad, '✓', {
@@ -1260,6 +1264,8 @@ function bekrafta_ta_emot() {
     
   }
   if (model.rostat.rf == true) {
+
+    model['antal_roster'].rf++;
     
     var rad = länka_in('div', div);
     var span = länka_in('span', rad, '✓', {
@@ -1269,6 +1275,8 @@ function bekrafta_ta_emot() {
     
   }
   if (model.rostat.fo == true) {
+
+    model['antal_roster'].fo++;
     
     var rad = länka_in('div', div);
     var span = länka_in('span', rad, '✓', {
@@ -1300,6 +1308,50 @@ function bekrafta_ta_emot() {
   });
   
 }
+
+function statistik_i_vallokalen() {
+  
+  if (!kollaVallokal()) {return false;}
+  
+  var main = sätt_upp_basic_sida();
+  var body = document.getElementsByTagName('body')[0];
+  body.setAttribute('class', 'valfunk');
+  
+  var h1 = länka_in('h1', main, 'Statistik i vallokalen');
+  
+  var dat = new Date();
+  
+  var p = länka_in('p', main, 'Senast uppdaterad: ' + dat.toLocaleString());
+  //var p = länka_in('p', main, 'Du kan uppdatera sidan för att ladda in senaste statistiken.');
+
+  var outer = länka_in('div', main, '', {
+    'style' : 'border: 1px solid #eeeeee; border-radius: 5px; padding: 10px; background-color: white; max-width: 500px;'
+    
+  });
+  
+  var riksdag = länka_in('div', outer, 'Riksdag', {
+    'class' : 'riksdag',
+    'style' : 'margin-bottom: 10px;'
+  });
+  var antal = länka_in('span', riksdag, model['antal_roster'].rd, {
+    'style' : 'float: right; font-weight: bold;'
+  });
+  var kommun = länka_in('div', outer, 'Kommunfullmäktige', {
+    'class' : 'kommun',
+    'style' : 'margin-bottom: 10px;'
+  });
+  var antal = länka_in('span', kommun, model['antal_roster'].kf, {
+    'style' : 'float: right; font-weight: bold;'
+  });
+  var region = länka_in('div', outer, 'Regionfullmäktige', {
+    'class' : 'region'
+  });
+  var antal = länka_in('span', region, model['antal_roster'].rf, {
+    'style' : 'float: right; font-weight: bold;'
+  });
+
+}
+
 
 
 

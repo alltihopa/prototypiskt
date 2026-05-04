@@ -521,7 +521,7 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.riksdag:hover {
+label.riksdag:hover {
   background-color: gold;
   cursor: pointer;
 }
@@ -531,7 +531,7 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.region:hover {
+label.region:hover {
   background-color: lightblue;
   cursor: pointer;
 }
@@ -541,7 +541,7 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.kommun:hover {
+label.kommun:hover {
   background-color: lightgray;
   cursor: pointer;
 }
@@ -551,7 +551,7 @@ input[pattern]:valid + input[type=button] {
   padding: 10px;
   border-radius: 5px;
 }
-.folkomr:hover {
+label.folkomr:hover {
   background-color: hotpink;
   cursor: pointer;
 }
@@ -634,6 +634,8 @@ table, th, td {
   }
   100% {
     display:none;
+    visibility: hidden;
+    z-index: -1;
   }
 }
 @keyframes loader {

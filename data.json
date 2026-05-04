@@ -141,8 +141,11 @@
           {
             "sida" : "ta_emot_rost",
             "namn" : "Ta emot röst"
-          }          
-
+          },         
+          {
+            "sida" : "statistik_i_vallokalen",
+            "namn" : "Statistik i vallokalen"
+          }
     ],
     "v" : [
           {
@@ -177,5 +180,11 @@
   "nedkopplad" : "",
   "budrost" : "",
   "reggade_froster" : {},
-  "rostat" : {}
+  "rostat" : {},
+  "antal_roster" : {
+    "rd" : 0,
+    "kf" : 0,
+    "rf" : 0,
+    "fo" : 0
+  }
 }
